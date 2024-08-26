@@ -16,7 +16,7 @@ public class ContactService : IContactService
     public async Task<int> CreateContactHandlerAsync(Contact contact)
     {
         await _contactRepository.CreateContactAsync(contact);
-        return contact.Id; // Retorna o ID do contato criado
+        return contact.Id;
     }
 
     public async Task UpdateContactHandlerAsync(Contact contact)

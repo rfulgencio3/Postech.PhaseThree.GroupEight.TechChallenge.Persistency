@@ -3,5 +3,5 @@
 public class DeleteIntegrationModel
 {
     public int Id { get; set; }
-    public string OperationType { get; set; } // delete
+    public string OperationType { get; set; } // TOOD: delete enum
 }

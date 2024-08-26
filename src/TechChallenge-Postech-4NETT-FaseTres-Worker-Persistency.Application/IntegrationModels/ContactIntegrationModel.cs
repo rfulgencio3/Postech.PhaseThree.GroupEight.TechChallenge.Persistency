@@ -7,5 +7,5 @@ public class ContactIntegrationModel
     public string Number { get; set; }
     public string FullName { get; set; }
     public int Status { get; set; }
-    public string OperationType { get; set; } // create, update
+    public string OperationType { get; set; } // TODO: create, update enum
 }
