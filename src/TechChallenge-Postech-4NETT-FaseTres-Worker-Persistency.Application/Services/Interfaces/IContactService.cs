@@ -4,7 +4,7 @@ namespace Worker.Persistency.Application.Services.Interfaces;
 
 public interface IContactService
 {
-    Task<int> CreateContactHandlerAsync(Contact contact);
-    Task UpdateContactHandlerAsync(Contact contact);
+    Task<Guid> CreateContactHandlerAsync(ContactEntity contact);
+    Task UpdateContactHandlerAsync(ContactEntity contact);
     Task DeleteContactHandlerAsync(int id);
 }

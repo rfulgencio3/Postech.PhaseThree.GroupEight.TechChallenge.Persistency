@@ -13,13 +13,13 @@ public class ContactRepository : IContactRepository
         _context = context;
     }
 
-    public async Task CreateContactAsync(Contact contact)
+    public async Task CreateContactAsync(ContactEntity contact)
     {
         _context.Contacts.Add(contact);
         await _context.SaveChangesAsync();
     }
 
-    public async Task UpdateContactAsync(Contact contact)
+    public async Task UpdateContactAsync(ContactEntity contact)
     {
         _context.Contacts.Update(contact);
         await _context.SaveChangesAsync();
@@ -30,7 +30,7 @@ public class ContactRepository : IContactRepository
         var contact = await _context.Contacts.FindAsync(id);
         if (contact != null)
         {
-            contact.Status = 0; // Exclusão lógica
+            contact.Active = false;
             await _context.SaveChangesAsync();
         }
     }

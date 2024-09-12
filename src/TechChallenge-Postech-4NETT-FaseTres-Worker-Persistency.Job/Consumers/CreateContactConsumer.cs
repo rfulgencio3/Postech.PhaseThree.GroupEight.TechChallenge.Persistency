@@ -25,23 +25,25 @@ public class CreateContactConsumer : IConsumer<CreateContactEvent>
 
         var model = context.Message;
 
-        var contact = new Contact
+        var contact = new ContactEntity
         {
-            DDD = model.DDD,
-            Number = model.Number,
-            FullName = model.FullName,
-            Status = model.Status
-        };
+            Name = model.Name,
+            Phone = model.Phone,
+            Email = model.Email,
+            CreatedAt = DateTime.UtcNow,
+            Active = true,
+};
 
-        int id = await _contactService.CreateContactHandlerAsync(contact);
+        var id = await _contactService.CreateContactHandlerAsync(contact);
 
         var integrationMessage = new ContactIntegrationModel
         {
             Id = id,
-            DDD = model.DDD,
-            Number = model.Number,
-            FullName = model.FullName,
-            Status = model.Status,
+            Name = model.Name,
+            Phone = model.Phone,
+            Email = model.Email,
+            CreatedAt = model.CreatedAt,
+            Active = model.Active,
             OperationType = "create"
         };
 

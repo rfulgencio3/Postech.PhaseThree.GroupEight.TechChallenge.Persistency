@@ -6,7 +6,7 @@ namespace Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Infrastructure
 
 public class ContactDbContext : DbContext
 {
-    public DbSet<Contact> Contacts { get; set; }
+    public DbSet<ContactEntity> Contacts { get; set; }
 
     public ContactDbContext(DbContextOptions<ContactDbContext> options) : base(options)
     {

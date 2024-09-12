@@ -13,13 +13,13 @@ public class ContactService : IContactService
         _contactRepository = contactRepository;
     }
 
-    public async Task<int> CreateContactHandlerAsync(Contact contact)
+    public async Task<Guid> CreateContactHandlerAsync(ContactEntity contact)
     {
         await _contactRepository.CreateContactAsync(contact);
         return contact.Id;
     }
 
-    public async Task UpdateContactHandlerAsync(Contact contact)
+    public async Task UpdateContactHandlerAsync(ContactEntity contact)
     {
         await _contactRepository.UpdateContactAsync(contact);
     }

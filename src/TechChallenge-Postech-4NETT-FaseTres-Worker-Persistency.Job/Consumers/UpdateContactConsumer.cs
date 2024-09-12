@@ -1,5 +1,4 @@
 ﻿using MassTransit;
-using Microsoft.Extensions.Logging;
 using Worker.Persistency.Application.Events;
 using Worker.Persistency.Application.IntegrationModels;
 using Worker.Persistency.Application.Services.Interfaces;
@@ -26,13 +25,14 @@ public class UpdateContactConsumer : IConsumer<UpdateContactEvent>
 
         var model = context.Message;
 
-        var contact = new Contact
+        var contact = new ContactEntity
         {
             Id = model.Id,
-            DDD = model.DDD,
-            Number = model.Number,
-            FullName = model.FullName,
-            Status = model.Status
+            Name = model.Name,
+            Phone = model.Phone,
+            Email = model.Email,
+            ModifiedAt = model.ModifiedAt,
+            Active = model.Active
         };
 
         await _contactService.UpdateContactHandlerAsync(contact);
@@ -40,10 +40,11 @@ public class UpdateContactConsumer : IConsumer<UpdateContactEvent>
         var integrationMessage = new ContactIntegrationModel
         {
             Id = model.Id,
-            DDD = model.DDD,
-            Number = model.Number,
-            FullName = model.FullName,
-            Status = model.Status,
+            Name = model.Name,
+            Phone = model.Phone,
+            Email = model.Email,
+            ModifiedAt = model.ModifiedAt,
+            Active = model.Active,
             OperationType = "update"
         };
 
