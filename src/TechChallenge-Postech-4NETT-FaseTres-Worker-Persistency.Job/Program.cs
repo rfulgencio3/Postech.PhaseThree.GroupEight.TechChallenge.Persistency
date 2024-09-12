@@ -52,10 +52,8 @@ var host = Host.CreateDefaultBuilder(args)
                 cfg.UseMessageRetry(r => r.Interval(3, TimeSpan.FromSeconds(5)));
             });
         });
-
-        services.AddMassTransitHostedService(true);
-
         services.AddHostedService<Start>();
+
     })
     .ConfigureLogging(logging =>
     {
