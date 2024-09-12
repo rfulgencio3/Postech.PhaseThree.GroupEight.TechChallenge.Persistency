@@ -1,4 +1,4 @@
-﻿using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Infrastructure;
+﻿using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Infrastructure.Context;
 using Worker.Persistency.Core.Entities;
 using Worker.Persistency.Core.Interfaces;
 
@@ -6,9 +6,9 @@ namespace Worker.Persistency.Infrastructure.Data;
 
 public class ContactRepository : IContactRepository
 {
-    private readonly ContactDbContext _context;
+    private readonly ContactManagementDbContext _context;
 
-    public ContactRepository(ContactDbContext context)
+    public ContactRepository(ContactManagementDbContext context)
     {
         _context = context;
     }

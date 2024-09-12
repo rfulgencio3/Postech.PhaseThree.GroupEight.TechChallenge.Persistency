@@ -1,15 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Worker.Persistency.Core.Entities;
+﻿using Worker.Persistency.Core.Entities;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
-namespace Worker.Persistency.Infrastructure.Context;
+namespace Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Infrastructure.Context;
 
-public class ContactManagementDbContext(DbContextOptions<ContactManagementDbContext> options) : DbContext(options)
+public class ContactManagementDbContext : DbContext
 {
     public DbSet<ContactEntity> Contacts { get; set; }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    public ContactManagementDbContext(DbContextOptions<ContactManagementDbContext> options) : base(options)
     {
-        base.OnModelCreating(modelBuilder);
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(ContactManagementDbContext).Assembly);
     }
 }

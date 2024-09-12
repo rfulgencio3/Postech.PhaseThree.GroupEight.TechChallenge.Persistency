@@ -1,7 +1,6 @@
 ﻿using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Infrastructure;
-using System.Text.Json;
+using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Infrastructure.Context;
 using Worker.Persistency.Application.Services;
 using Worker.Persistency.Application.Services.Interfaces;
 using Worker.Persistency.Core.Interfaces;
@@ -12,7 +11,7 @@ using Worker.Persistency.Job.Consumers;
 var host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((context, services) =>
     {
-        services.AddDbContext<ContactDbContext>(options =>
+        services.AddDbContext<ContactManagementDbContext>(options =>
             options.UseNpgsql(context.Configuration.GetConnectionString("DefaultConnection")));
 
         services.AddScoped<IContactRepository, ContactRepository>();
@@ -28,12 +27,6 @@ var host = Host.CreateDefaultBuilder(args)
             {
                 cfg.Host("localhost", "/", host => { });
 
-                cfg.ConfigureJsonSerializerOptions(options =>
-                {
-                    options.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-                    return options;
-                });
-
                 cfg.ReceiveEndpoint("contact.create", e =>
                 {
                     e.ConfigureConsumer<CreateContactConsumer>(context);
@@ -48,12 +41,10 @@ var host = Host.CreateDefaultBuilder(args)
                 {
                     e.ConfigureConsumer<DeleteContactConsumer>(context);
                 });
-
-                cfg.UseMessageRetry(r => r.Interval(3, TimeSpan.FromSeconds(5)));
             });
         });
-        services.AddHostedService<Start>();
 
+        services.AddHostedService<Start>();
     })
     .ConfigureLogging(logging =>
     {
@@ -61,5 +52,24 @@ var host = Host.CreateDefaultBuilder(args)
         logging.AddConsole();
     })
     .Build();
+
+using (var scope = host.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ContactManagementDbContext>();
+    try
+    {
+        var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+        logger.LogInformation("Starting database migration...");
+
+        dbContext.Database.Migrate();
+
+        logger.LogInformation("Database migration completed successfully.");
+    }
+    catch (Exception ex)
+    {
+        var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred while applying migrations.");
+    }
+}
 
 await host.RunAsync();
