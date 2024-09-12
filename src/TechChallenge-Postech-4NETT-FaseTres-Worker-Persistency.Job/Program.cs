@@ -25,24 +25,38 @@ var host = Host.CreateDefaultBuilder(args)
 
             x.UsingRabbitMq((context, cfg) =>
             {
-                cfg.Host("localhost", "/", host => { });
+                var rabbitMqUser = Environment.GetEnvironmentVariable("RABBITMQ_USERNAME");
+                var rabbitMqPassword = Environment.GetEnvironmentVariable("RABBITMQ_PASSWORD");
+
+                cfg.Host("rabbitmq", "/", host =>
+                {
+                    host.Username(rabbitMqUser!);
+                    host.Password(rabbitMqPassword!);
+                });
 
                 cfg.ReceiveEndpoint("contact.create", e =>
                 {
                     e.ConfigureConsumer<CreateContactConsumer>(context);
+
+                    e.BindDeadLetterQueue("contact.create.dlq");
                 });
 
                 cfg.ReceiveEndpoint("contact.update", e =>
                 {
                     e.ConfigureConsumer<UpdateContactConsumer>(context);
+
+                    e.BindDeadLetterQueue("contact.update.dlq");
                 });
 
                 cfg.ReceiveEndpoint("contact.delete", e =>
                 {
                     e.ConfigureConsumer<DeleteContactConsumer>(context);
+
+                    e.BindDeadLetterQueue("contact.delete.dlq");
                 });
             });
         });
+
 
         services.AddHostedService<Start>();
     })

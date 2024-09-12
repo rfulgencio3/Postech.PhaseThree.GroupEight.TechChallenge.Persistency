@@ -1,5 +1,4 @@
 ﻿using MassTransit;
-using Microsoft.Extensions.Logging;
 using Worker.Persistency.Application.Events;
 using Worker.Persistency.Application.IntegrationModels;
 using Worker.Persistency.Application.Services.Interfaces;

@@ -28,7 +28,8 @@ public class UpdateContactConsumer : IConsumer<UpdateContactEvent>
         var contact = new ContactEntity
         {
             Id = model.Id,
-            Name = model.Name,
+            FirstName = model.FirstName,
+            LastName = model.LastName,
             Phone = model.Phone,
             Email = model.Email,
             ModifiedAt = model.ModifiedAt,
@@ -40,12 +41,13 @@ public class UpdateContactConsumer : IConsumer<UpdateContactEvent>
         var integrationMessage = new ContactIntegrationModel
         {
             Id = model.Id,
-            Name = model.Name,
+            FirstName = model.FirstName,
+            LastName = model.LastName,
             Phone = model.Phone,
             Email = model.Email,
             ModifiedAt = model.ModifiedAt,
             Active = model.Active,
-            OperationType = "update"
+            EventType = "update"
         };
 
         await _publishEndpoint.Publish(integrationMessage);
