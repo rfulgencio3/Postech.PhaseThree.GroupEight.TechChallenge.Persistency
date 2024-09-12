@@ -17,6 +17,17 @@ var host = Host.CreateDefaultBuilder(args)
         services.AddScoped<IContactRepository, ContactRepository>();
         services.AddScoped<IContactService, ContactService>();
 
+        var rabbitMqConfig = context.Configuration.GetSection("RabbitMQ");
+        var rabbitMqUser = rabbitMqConfig["Username"];
+        var rabbitMqPassword = rabbitMqConfig["Password"];
+        var rabbitMqHost = rabbitMqConfig["Host"];
+
+        var loggerFactory = LoggerFactory.Create(builder =>
+        {
+            builder.AddConsole();
+        });
+        var logger = loggerFactory.CreateLogger<Program>();
+
         services.AddMassTransit(x =>
         {
             x.AddConsumer<CreateContactConsumer>();
@@ -25,10 +36,7 @@ var host = Host.CreateDefaultBuilder(args)
 
             x.UsingRabbitMq((context, cfg) =>
             {
-                var rabbitMqUser = Environment.GetEnvironmentVariable("RABBITMQ_USERNAME");
-                var rabbitMqPassword = Environment.GetEnvironmentVariable("RABBITMQ_PASSWORD");
-
-                cfg.Host("rabbitmq", "/", host =>
+                cfg.Host(rabbitMqHost, "/", host =>
                 {
                     host.Username(rabbitMqUser!);
                     host.Password(rabbitMqPassword!);
@@ -37,26 +45,22 @@ var host = Host.CreateDefaultBuilder(args)
                 cfg.ReceiveEndpoint("contact.create", e =>
                 {
                     e.ConfigureConsumer<CreateContactConsumer>(context);
-
                     e.BindDeadLetterQueue("contact.create.dlq");
                 });
 
                 cfg.ReceiveEndpoint("contact.update", e =>
                 {
                     e.ConfigureConsumer<UpdateContactConsumer>(context);
-
                     e.BindDeadLetterQueue("contact.update.dlq");
                 });
 
                 cfg.ReceiveEndpoint("contact.delete", e =>
                 {
                     e.ConfigureConsumer<DeleteContactConsumer>(context);
-
                     e.BindDeadLetterQueue("contact.delete.dlq");
                 });
             });
         });
-
 
         services.AddHostedService<Start>();
     })

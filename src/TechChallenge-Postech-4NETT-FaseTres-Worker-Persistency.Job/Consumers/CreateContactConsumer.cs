@@ -27,10 +27,10 @@ public class CreateContactConsumer : IConsumer<CreateContactEvent>
 
         var contact = new ContactEntity
         {
-            FirstName = model.FirstName,
-            LastName = model.LastName,
-            Email = model.Email,
-            PhoneNumber = model.PhoneNumber,
+            FirstName = model.ContactFirstName,
+            LastName = model.ContactLastName,
+            Email = model.ContactEmail,
+            PhoneNumber = model.ContactPhoneNumber,
             CreatedAt = DateTime.UtcNow,
             Active = true,
 };
@@ -40,13 +40,13 @@ public class CreateContactConsumer : IConsumer<CreateContactEvent>
         var integrationMessage = new ContactIntegrationModel
         {
             Id = id,
-            FirstName = model.FirstName,
-            LastName = model.LastName,
-            Email = model.Email,
-            PhoneNumber = model.PhoneNumber,
-            CreatedAt = model.CreatedAt,
-            Active = model.Active,
-            EventType = "create"
+            FirstName = model.ContactFirstName,
+            LastName = model.ContactLastName,
+            Email = model.ContactEmail,
+            PhoneNumber = model.ContactPhoneNumber,
+            CreatedAt = DateTime.UtcNow,
+            Active = true,
+            EventType = model.EventType,
         };
 
         await _publishEndpoint.Publish(integrationMessage);

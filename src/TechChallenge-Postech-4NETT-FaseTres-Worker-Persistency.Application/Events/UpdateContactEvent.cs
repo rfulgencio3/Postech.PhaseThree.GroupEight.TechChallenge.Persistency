@@ -2,11 +2,11 @@
 
 public class UpdateContactEvent
 {
-    public Guid Id { get; set; }
-    public required string FirstName { get; set; }
-    public required string LastName { get; set; }
-    public required string Email { get; set; }
-    public required string PhoneNumber { get; set; }
-    public DateTime ModifiedAt { get; set; }
-    public bool Active { get; set; }
+    public required Guid Id { get; set; }
+    public required string ContactFirstName { get; set; }
+    public required string ContactLastName { get; set; }
+    public required string ContactEmail { get; set; }
+    public required string ContactPhoneNumber { get; set; }
+    public required bool Active { get; set; }
+    public required string EventType { get; set; }
 }
