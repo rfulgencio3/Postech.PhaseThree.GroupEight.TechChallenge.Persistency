@@ -1,9 +1,9 @@
 ﻿using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Infrastructure.Context;
 using Worker.Persistency.Application.Services;
 using Worker.Persistency.Application.Services.Interfaces;
 using Worker.Persistency.Core.Interfaces;
+using Worker.Persistency.Infrastructure.Contexts;
 using Worker.Persistency.Infrastructure.Data;
 using Worker.Persistency.Job;
 using Worker.Persistency.Job.Consumers;

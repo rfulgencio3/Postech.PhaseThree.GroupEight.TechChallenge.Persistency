@@ -1,6 +1,6 @@
-﻿using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Infrastructure.Context;
-using Worker.Persistency.Core.Entities;
+﻿using Worker.Persistency.Core.Entities;
 using Worker.Persistency.Core.Interfaces;
+using Worker.Persistency.Infrastructure.Contexts;
 
 namespace Worker.Persistency.Infrastructure.Data;
 
