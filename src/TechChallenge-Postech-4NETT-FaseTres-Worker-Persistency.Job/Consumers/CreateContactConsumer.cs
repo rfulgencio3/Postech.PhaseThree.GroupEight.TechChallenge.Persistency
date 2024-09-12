@@ -29,8 +29,8 @@ public class CreateContactConsumer : IConsumer<CreateContactEvent>
         {
             FirstName = model.FirstName,
             LastName = model.LastName,
-            Phone = model.Phone,
             Email = model.Email,
+            PhoneNumber = model.PhoneNumber,
             CreatedAt = DateTime.UtcNow,
             Active = true,
 };
@@ -42,8 +42,8 @@ public class CreateContactConsumer : IConsumer<CreateContactEvent>
             Id = id,
             FirstName = model.FirstName,
             LastName = model.LastName,
-            Phone = model.Phone,
             Email = model.Email,
+            PhoneNumber = model.PhoneNumber,
             CreatedAt = model.CreatedAt,
             Active = model.Active,
             EventType = "create"

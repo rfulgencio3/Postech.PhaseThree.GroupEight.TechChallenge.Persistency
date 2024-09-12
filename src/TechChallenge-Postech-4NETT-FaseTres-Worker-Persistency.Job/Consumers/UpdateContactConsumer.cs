@@ -30,8 +30,8 @@ public class UpdateContactConsumer : IConsumer<UpdateContactEvent>
             Id = model.Id,
             FirstName = model.FirstName,
             LastName = model.LastName,
-            Phone = model.Phone,
             Email = model.Email,
+            PhoneNumber = model.PhoneNumber,
             ModifiedAt = model.ModifiedAt,
             Active = model.Active
         };
@@ -43,8 +43,8 @@ public class UpdateContactConsumer : IConsumer<UpdateContactEvent>
             Id = model.Id,
             FirstName = model.FirstName,
             LastName = model.LastName,
-            Phone = model.Phone,
             Email = model.Email,
+            PhoneNumber = model.PhoneNumber,
             ModifiedAt = model.ModifiedAt,
             Active = model.Active,
             EventType = "update"
