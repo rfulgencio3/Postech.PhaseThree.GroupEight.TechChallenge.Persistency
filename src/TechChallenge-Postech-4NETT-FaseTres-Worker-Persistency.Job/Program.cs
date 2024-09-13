@@ -44,21 +44,31 @@ var host = Host.CreateDefaultBuilder(args)
 
                 cfg.ReceiveEndpoint("contact.create", e =>
                 {
+                    e.UseRawJsonDeserializer();
                     e.ConfigureConsumer<CreateContactConsumer>(context);
-                    e.BindDeadLetterQueue("contact.create.dlq");
+
+                    e.SetQueueArgument("x-dead-letter-exchange", "contact.create.dlq");
                 });
 
                 cfg.ReceiveEndpoint("contact.update", e =>
                 {
+                    e.UseRawJsonDeserializer();
                     e.ConfigureConsumer<UpdateContactConsumer>(context);
-                    e.BindDeadLetterQueue("contact.update.dlq");
+
+                    e.SetQueueArgument("x-dead-letter-exchange", "contact.update.dlq");
                 });
 
                 cfg.ReceiveEndpoint("contact.delete", e =>
                 {
+                    e.UseRawJsonDeserializer();
                     e.ConfigureConsumer<DeleteContactConsumer>(context);
-                    e.BindDeadLetterQueue("contact.delete.dlq");
+
+                    e.SetQueueArgument("x-dead-letter-exchange", "contact.delete.dlq");
                 });
+
+                cfg.ReceiveEndpoint("contact.create.dlq", e => { e.UseRawJsonDeserializer(); });
+                cfg.ReceiveEndpoint("contact.update.dlq", e => { e.UseRawJsonDeserializer(); });
+                cfg.ReceiveEndpoint("contact.delete.dlq", e => { e.UseRawJsonDeserializer(); });
             });
         });
 
