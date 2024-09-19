@@ -1,6 +1,6 @@
 ﻿using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Core.Entities;
 
-namespace Worker.Persistency.Core.Entities;
+namespace Postech.GroupEight.TechChallenge.ContactManagement.Core.Entities;
 
 public class ContactEntity : EntityBase
 {

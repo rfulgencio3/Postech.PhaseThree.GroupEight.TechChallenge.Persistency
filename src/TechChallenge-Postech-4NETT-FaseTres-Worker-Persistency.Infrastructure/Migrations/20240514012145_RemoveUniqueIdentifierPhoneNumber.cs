@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace Worker.Persistency.Infrastructure.Migrations
+namespace Postech.GroupEight.TechChallenge.ContactManagement.Infrastructure.Migrations
 {
     /// <inheritdoc />
     public partial class RemoveUniqueIdentifierPhoneNumber : Migration

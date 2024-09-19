@@ -1,9 +1,9 @@
 ﻿using MassTransit;
-using Worker.Persistency.Application.Events;
-using Worker.Persistency.Application.IntegrationModels;
-using Worker.Persistency.Application.Services.Interfaces;
+using Postech.GroupEight.TechChallenge.ContactManagement.Application.Events;
+using Postech.GroupEight.TechChallenge.ContactManagement.Application.IntegrationModels;
+using Postech.GroupEight.TechChallenge.ContactManagement.Application.Services.Interfaces;
 
-namespace Worker.Persistency.Job.Consumers;
+namespace Postech.GroupEight.TechChallenge.ContactManagement.Job.Consumers;
 
 public class DeleteContactConsumer : IConsumer<DeleteContactEvent>
 {

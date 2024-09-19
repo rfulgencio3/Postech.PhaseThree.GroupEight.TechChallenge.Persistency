@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Worker.Persistency.Job;
+namespace Postech.GroupEight.TechChallenge.ContactManagement.Job;
 
 public class Start : BackgroundService
 {

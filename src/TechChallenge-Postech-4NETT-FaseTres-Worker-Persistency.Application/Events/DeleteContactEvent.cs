@@ -1,4 +1,4 @@
-﻿namespace Worker.Persistency.Application.Events;
+﻿namespace Postech.GroupEight.TechChallenge.ContactManagement.Application.Events;
 
 public class DeleteContactEvent
 {
