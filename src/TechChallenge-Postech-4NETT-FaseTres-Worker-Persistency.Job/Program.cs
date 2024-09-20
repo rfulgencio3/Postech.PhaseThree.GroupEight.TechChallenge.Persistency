@@ -1,12 +1,12 @@
 ﻿using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using Postech.GroupEight.TechChallenge.ContactManagement.Application.Services;
-using Postech.GroupEight.TechChallenge.ContactManagement.Application.Services.Interfaces;
-using Postech.GroupEight.TechChallenge.ContactManagement.Core.Interfaces;
-using Postech.GroupEight.TechChallenge.ContactManagement.Infrastructure.Contexts;
-using Postech.GroupEight.TechChallenge.ContactManagement.Infrastructure.Data;
-using Postech.GroupEight.TechChallenge.ContactManagement.Job;
-using Postech.GroupEight.TechChallenge.ContactManagement.Job.Consumers;
+using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Application.Services;
+using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Application.Services.Interfaces;
+using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Infra.Contexts;
+using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Infra.Data;
+using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Core.Interfaces;
+using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Job;
+using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Job.Consumers;
 
 var host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((context, services) =>

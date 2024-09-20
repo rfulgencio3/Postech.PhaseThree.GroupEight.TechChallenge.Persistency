@@ -1,4 +1,4 @@
-﻿namespace Postech.GroupEight.TechChallenge.ContactManagement.Application.IntegrationModels;
+﻿namespace Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Application.IntegrationModels;
 
 public class DeleteIntegrationModel
 {

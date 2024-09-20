@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace Postech.GroupEight.TechChallenge.ContactManagement.Infrastructure.Migrations
+namespace Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Infra.Migrations
 {
     /// <inheritdoc />
     public partial class IX_tb_contact_phone_contact_phone_number_area_code_id : Migration

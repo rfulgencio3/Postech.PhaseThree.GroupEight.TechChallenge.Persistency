@@ -2,11 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Postech.GroupEight.TechChallenge.ContactManagement.Infrastructure.Contexts;
+using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Infra.Contexts;
 
 #nullable disable
 
-namespace Postech.GroupEight.TechChallenge.ContactManagement.Infrastructure.Migrations
+namespace Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Infra.Migrations
 {
     [DbContext(typeof(ContactManagementDbContext))]
     [Migration("20240519202423_IX_tb_contact_phone_contact_phone_number_area_code_id")]

@@ -1,6 +1,6 @@
 ﻿using Bogus;
 using FluentAssertions;
-using Postech.GroupEight.TechChallenge.ContactManagement.Core.Entities;
+using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Core.Entities;
 
 namespace Postech.GroupEight.TechChallenge.Tests.Core;
 
@@ -18,6 +18,8 @@ public class ContactEntityTest
     }
 
     [Fact]
+    [Trait("Category", "Unit")]
+    [Trait("Component", "Core")]
     public void ContactEntity_ShouldBeCreatedWithValidData()
     {
         // Arrange

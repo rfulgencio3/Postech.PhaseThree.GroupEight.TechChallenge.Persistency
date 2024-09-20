@@ -1,4 +1,4 @@
-﻿namespace Postech.GroupEight.TechChallenge.ContactManagement.Application.Events;
+﻿namespace Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Application.Events;
 
 public class CreateContactEvent
 {

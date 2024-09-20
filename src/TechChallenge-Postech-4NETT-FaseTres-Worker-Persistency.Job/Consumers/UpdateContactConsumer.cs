@@ -1,10 +1,10 @@
 ﻿using MassTransit;
-using Postech.GroupEight.TechChallenge.ContactManagement.Application.Events;
-using Postech.GroupEight.TechChallenge.ContactManagement.Application.IntegrationModels;
-using Postech.GroupEight.TechChallenge.ContactManagement.Application.Services.Interfaces;
-using Postech.GroupEight.TechChallenge.ContactManagement.Core.Entities;
+using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Application.Events;
+using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Application.IntegrationModels;
+using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Application.Services.Interfaces;
+using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Core.Entities;
 
-namespace Postech.GroupEight.TechChallenge.ContactManagement.Job.Consumers;
+namespace Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Job.Consumers;
 
 public class UpdateContactConsumer : IConsumer<UpdateContactEvent>
 {

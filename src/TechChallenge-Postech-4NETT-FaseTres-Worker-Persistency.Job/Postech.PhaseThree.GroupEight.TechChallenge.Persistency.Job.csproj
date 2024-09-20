@@ -18,7 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\TechChallenge-Postech-4NETT-FaseTres-Worker-Persistency.Application\Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Application.csproj" />
     <ProjectReference Include="..\TechChallenge-Postech-4NETT-FaseTres-Worker-Persistency.Core\Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Core.csproj" />
-    <ProjectReference Include="..\TechChallenge-Postech-4NETT-FaseTres-Worker-Persistency.Infrastructure\Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Infrastructure.csproj" />
+    <ProjectReference Include="..\TechChallenge-Postech-4NETT-FaseTres-Worker-Persistency.Infrastructure\Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Infra.csproj" />
   </ItemGroup>
 
 </Project>

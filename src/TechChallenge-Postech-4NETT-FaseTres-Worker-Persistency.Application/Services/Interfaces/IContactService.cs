@@ -1,6 +1,6 @@
-﻿using Postech.GroupEight.TechChallenge.ContactManagement.Core.Entities;
+﻿using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Core.Entities;
 
-namespace Postech.GroupEight.TechChallenge.ContactManagement.Application.Services.Interfaces;
+namespace Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Application.Services.Interfaces;
 
 public interface IContactService
 {

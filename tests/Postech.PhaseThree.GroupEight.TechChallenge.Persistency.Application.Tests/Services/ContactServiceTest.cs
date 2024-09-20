@@ -1,9 +1,9 @@
 ﻿using Bogus;
 using FluentAssertions;
 using Moq;
-using Postech.GroupEight.TechChallenge.ContactManagement.Application.Services;
-using Postech.GroupEight.TechChallenge.ContactManagement.Core.Entities;
-using Postech.GroupEight.TechChallenge.ContactManagement.Core.Interfaces;
+using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Application.Services;
+using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Core.Entities;
+using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Core.Interfaces;
 
 namespace Postech.GroupEight.TechChallenge.Tests;
 
@@ -27,6 +27,8 @@ public class ContactServiceTest
     }
 
     [Fact]
+    [Trait("Category", "Unit")]
+    [Trait("Component", "Service")]
     public async Task CreateContactHandlerAsync_ShouldReturnContactId_WhenContactIsCreated()
     {
         // Arrange
@@ -43,6 +45,8 @@ public class ContactServiceTest
     }
 
     [Fact]
+    [Trait("Category", "Unit")]
+    [Trait("Component", "Service")]
     public async Task UpdateContactHandlerAsync_ShouldCallUpdateContactAsync_WhenContactIsUpdated()
     {
         // Arrange
@@ -58,6 +62,8 @@ public class ContactServiceTest
     }
 
     [Fact]
+    [Trait("Category", "Unit")]
+    [Trait("Component", "Service")]
     public async Task DeleteContactHandlerAsync_ShouldCallDeleteContactAsync_WhenContactIsDeleted()
     {
         // Arrange

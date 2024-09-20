@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <RootNamespace>Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Infrastructure</RootNamespace>
+    <RootNamespace>Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Infra</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
