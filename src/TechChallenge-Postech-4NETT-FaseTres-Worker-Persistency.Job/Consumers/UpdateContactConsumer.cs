@@ -24,15 +24,16 @@ public class UpdateContactConsumer : IConsumer<ContactUpdatedEvent>
 
         var model = context.Message;
 
-        var areaCode = new AreaCodeEntity(model.ContactPhoneNumberAreaCode);
-        var contactPhone = new ContactPhoneEntity(model.ContactPhoneNumber, areaCode);
+        var contactPhoneNumberAreaCode = short.Parse(model.ContactPhoneNumberAreaCode);
+        var contactPhoneNumber = int.Parse(model.ContactPhoneNumber);
 
         var contact = new ContactEntity(
             model.ContactId,
             model.ContactFirstName,
             model.ContactLastName,
             model.ContactEmail,
-            contactPhone
+            contactPhoneNumberAreaCode,
+            contactPhoneNumber
         );
 
         contact.SetModifiedAt();

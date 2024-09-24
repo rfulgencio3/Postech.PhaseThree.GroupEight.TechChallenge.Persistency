@@ -19,14 +19,14 @@ namespace Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Infra.Migratio
                 schema: "contacts",
                 columns: table => new
                 {
-                    region_id = table.Column<short>(type: "smallint", nullable: false)
+                    id = table.Column<short>(type: "smallint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    region_name = table.Column<string>(type: "varchar", maxLength: 12, nullable: false),
-                    region_state_name = table.Column<string>(type: "varchar", maxLength: 19, nullable: false)
+                    name = table.Column<string>(type: "varchar", maxLength: 12, nullable: false),
+                    state_name = table.Column<string>(type: "varchar", maxLength: 19, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_tb_region", x => x.region_id);
+                    table.PrimaryKey("pk_tb_region", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -34,42 +34,20 @@ namespace Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Infra.Migratio
                 schema: "contacts",
                 columns: table => new
                 {
-                    area_code_id = table.Column<short>(type: "smallint", nullable: false)
+                    id = table.Column<short>(type: "smallint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    area_code_value = table.Column<string>(type: "char(2)", fixedLength: true, maxLength: 2, nullable: false),
-                    area_code_region_id = table.Column<short>(type: "smallint", nullable: false)
+                    value = table.Column<string>(type: "char(2)", fixedLength: true, maxLength: 2, nullable: false),
+                    region_id = table.Column<short>(type: "smallint", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_tb_area_code", x => x.area_code_id);
+                    table.PrimaryKey("pk_tb_area_code", x => x.id);
                     table.ForeignKey(
                         name: "fk_tb_region_tb_area_code",
-                        column: x => x.area_code_region_id,
+                        column: x => x.region_id,
                         principalSchema: "contacts",
                         principalTable: "tb_region",
                         principalColumn: "region_id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "tb_contact_phone",
-                schema: "contacts",
-                columns: table => new
-                {
-                    contact_phone_id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    contact_phone_number = table.Column<string>(type: "varchar", maxLength: 9, nullable: false),
-                    contact_phone_area_code_id = table.Column<short>(type: "smallint", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("pk_tb_contact_phone", x => x.contact_phone_id);
-                    table.ForeignKey(
-                        name: "fk_tb_area_code_tb_contact_phone",
-                        column: x => x.contact_phone_area_code_id,
-                        principalSchema: "contacts",
-                        principalTable: "tb_area_code",
-                        principalColumn: "area_code_id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -78,31 +56,25 @@ namespace Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Infra.Migratio
                 schema: "contacts",
                 columns: table => new
                 {
-                    contact_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    contact_first_name = table.Column<string>(type: "varchar", maxLength: 40, nullable: false),
-                    contact_last_name = table.Column<string>(type: "varchar", maxLength: 60, nullable: false),
-                    contact_email = table.Column<string>(type: "varchar", maxLength: 60, nullable: false),
-                    contact_contact_phone_id = table.Column<int>(type: "integer", nullable: false),
-                    contact_created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
-                    contact_modified_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
-                    contact_active = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true)
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    first_name = table.Column<string>(type: "varchar", maxLength: 40, nullable: false),
+                    last_name = table.Column<string>(type: "varchar", maxLength: 60, nullable: false),
+                    email = table.Column<string>(type: "varchar", maxLength: 60, nullable: false),
+                    contact_phone_area_code = table.Column<short>(type: "smallint", nullable: false),
+                    contact_phone = table.Column<int>(type: "integer", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                    modified_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                    active = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_tb_contact", x => x.contact_id);
-                    table.ForeignKey(
-                        name: "fk_tb_contact_phone_tb_contact",
-                        column: x => x.contact_contact_phone_id,
-                        principalSchema: "contacts",
-                        principalTable: "tb_contact_phone",
-                        principalColumn: "contact_phone_id",
-                        onDelete: ReferentialAction.Cascade);
+                    table.PrimaryKey("pk_tb_contact", x => x.id);
                 });
 
             migrationBuilder.InsertData(
                 schema: "contacts",
                 table: "tb_region",
-                columns: ["region_id", "region_name", "region_state_name"],
+                columns: ["id", "name", "state_name"],
                 values: new object[,]
                 {
                     { (short)1, "Norte", "Acre" },
@@ -137,7 +109,7 @@ namespace Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Infra.Migratio
             migrationBuilder.InsertData(
                 schema: "contacts",
                 table: "tb_area_code",
-                columns: ["area_code_id", "area_code_region_id", "area_code_value"],
+                columns: ["id", "region_id", "value"],
                 values: new object[,]
                 {
                     { (short)1, (short)25, "11" },
@@ -213,26 +185,14 @@ namespace Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Infra.Migratio
                 name: "ix_tb_area_code_area_code_region_id",
                 schema: "contacts",
                 table: "tb_area_code",
-                column: "area_code_region_id");
+                column: "region_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_tb_area_code_area_code_value",
                 schema: "contacts",
                 table: "tb_area_code",
-                column: "area_code_value",
+                column: "value",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "ix_tb_contact_contact_phone_id",
-                schema: "contacts",
-                table: "tb_contact",
-                column: "contact_contact_phone_id");
-
-            migrationBuilder.CreateIndex(
-                name: "ix_tb_contact_phone_area_code_id",
-                schema: "contacts",
-                table: "tb_contact_phone",
-                column: "contact_phone_area_code_id");
         }
 
         /// <inheritdoc />
@@ -240,10 +200,6 @@ namespace Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Infra.Migratio
         {
             migrationBuilder.DropTable(
                 name: "tb_contact",
-                schema: "contacts");
-
-            migrationBuilder.DropTable(
-                name: "tb_contact_phone",
                 schema: "contacts");
 
             migrationBuilder.DropTable(

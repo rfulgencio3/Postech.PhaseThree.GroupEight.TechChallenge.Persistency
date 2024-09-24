@@ -16,7 +16,7 @@ public class ContactService : IContactService
     public async Task<Guid> CreateContactHandlerAsync(ContactEntity contact)
     {
         await _contactRepository.CreateContactAsync(contact);
-        return contact.ContactId;
+        return contact.Id;
     }
 
     public async Task UpdateContactHandlerAsync(ContactEntity contact)

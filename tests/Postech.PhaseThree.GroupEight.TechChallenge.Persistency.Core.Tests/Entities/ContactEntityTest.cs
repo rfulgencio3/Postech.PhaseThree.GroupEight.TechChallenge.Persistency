@@ -13,8 +13,7 @@ public class ContactEntityTest
         _faker = new Faker<ContactEntity>()
             .RuleFor(c => c.FirstName, f => f.Name.FirstName())
             .RuleFor(c => c.LastName, f => f.Name.LastName())
-            .RuleFor(c => c.Email, f => f.Internet.Email())
-            .RuleFor(c => c.PhoneNumber, f => f.Phone.PhoneNumber());
+            .RuleFor(c => c.Email, f => f.Internet.Email());
     }
 
     [Fact]
@@ -29,6 +28,5 @@ public class ContactEntityTest
         contact.FirstName.Should().NotBeNullOrEmpty();
         contact.LastName.Should().NotBeNullOrEmpty();
         contact.Email.Should().NotBeNullOrEmpty();
-        contact.PhoneNumber.Should().NotBeNullOrEmpty();
     }
 }

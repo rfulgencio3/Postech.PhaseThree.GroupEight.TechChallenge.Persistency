@@ -22,8 +22,8 @@ public class ContactServiceTest
             .RuleFor(c => c.Id, f => Guid.NewGuid())
             .RuleFor(c => c.FirstName, f => f.Name.FirstName())
             .RuleFor(c => c.LastName, f => f.Name.LastName())
-            .RuleFor(c => c.Email, f => f.Internet.Email())
-            .RuleFor(c => c.PhoneNumber, f => f.Phone.PhoneNumber());
+            .RuleFor(c => c.Email, f => f.Internet.Email());
+            //.RuleFor(c => c.PhoneNumber, f => f.Phone.PhoneNumber());
     }
 
     [Fact]
