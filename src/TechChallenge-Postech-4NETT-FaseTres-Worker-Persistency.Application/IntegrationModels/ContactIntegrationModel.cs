@@ -9,6 +9,5 @@ public class ContactIntegrationModel
     public string? PhoneNumber { get; set; }
     public DateTime? CreatedAt { get; set; }
     public DateTime? ModifiedAt { get; set; }
-    //public bool Active { get; set; }
     public required string EventType { get; set; }
 }

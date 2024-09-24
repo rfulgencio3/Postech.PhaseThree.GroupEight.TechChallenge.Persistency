@@ -23,17 +23,20 @@ public class CreateContactConsumer : IConsumer<CreateContactEvent>
         _logger.LogInformation("Received CreateContact message at: {time}", DateTimeOffset.Now);
 
         var model = context.Message;
+        var contactId = Guid.NewGuid();
 
-        var contact = new ContactEntity
-        {
-            FirstName = model.ContactFirstName,
-            LastName = model.ContactLastName,
-            Email = model.ContactEmail,
-            PhoneNumber = model.ContactPhoneNumber,
-            PhoneNumberAreaCode = model.ContactPhoneNumberAreaCode,
-            CreatedAt = DateTime.UtcNow,
-            Active = true,
-        };
+        var areaCode = new AreaCodeEntity(model.ContactPhoneNumberAreaCode);
+        var contactPhone = new ContactPhoneEntity(model.ContactPhoneNumber, areaCode);
+
+        var contact = new ContactEntity(
+            contactId,
+            model.ContactFirstName,
+            model.ContactLastName,
+            model.ContactEmail,
+            contactPhone
+        );
+
+        contact.SetCreatedAt();
 
         var id = await _contactService.CreateContactHandlerAsync(contact);
 
@@ -45,11 +48,11 @@ public class CreateContactConsumer : IConsumer<CreateContactEvent>
             Email = model.ContactEmail,
             PhoneNumber = model.ContactPhoneNumber,
             CreatedAt = DateTime.UtcNow,
-            //Active = true,
-            EventType = "create",
+            EventType = nameof(CreateContactEvent),
         };
 
         await _publishEndpoint.Publish(integrationMessage);
+
         _logger.LogInformation("Published integration message for CreateContact at: {time}", DateTimeOffset.Now);
     }
 }

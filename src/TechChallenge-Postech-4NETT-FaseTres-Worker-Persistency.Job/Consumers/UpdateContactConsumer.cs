@@ -24,20 +24,22 @@ public class UpdateContactConsumer : IConsumer<ContactUpdatedEvent>
 
         var model = context.Message;
 
-        var contact = new ContactEntity
-        {
-            Id = model.ContactId,
-            FirstName = model.ContactFirstName,
-            LastName = model.ContactLastName,
-            Email = model.ContactEmail,
-            PhoneNumber = model.ContactPhoneNumber,
-            PhoneNumberAreaCode = model.ContactPhoneNumberAreaCode,
-            ModifiedAt = DateTime.UtcNow,
-            //Active = model.Active
-        };
+        var areaCode = new AreaCodeEntity(model.ContactPhoneNumberAreaCode);
+        var contactPhone = new ContactPhoneEntity(model.ContactPhoneNumber, areaCode);
+
+        var contact = new ContactEntity(
+            model.ContactId,
+            model.ContactFirstName,
+            model.ContactLastName,
+            model.ContactEmail,
+            contactPhone
+        );
+
+        contact.SetModifiedAt();
 
         await _contactService.UpdateContactHandlerAsync(contact);
 
+        // Publica a mensagem de integração
         var integrationMessage = new ContactIntegrationModel
         {
             Id = model.ContactId,
@@ -46,11 +48,11 @@ public class UpdateContactConsumer : IConsumer<ContactUpdatedEvent>
             Email = model.ContactEmail,
             PhoneNumber = model.ContactPhoneNumber,
             ModifiedAt = DateTime.UtcNow,
-            //Active = model.Active,
-            EventType = "update",
+            EventType = nameof(ContactUpdatedEvent),
         };
 
         await _publishEndpoint.Publish(integrationMessage);
+
         _logger.LogInformation("Published integration message for UpdateContact at: {time}", DateTimeOffset.Now);
     }
 }

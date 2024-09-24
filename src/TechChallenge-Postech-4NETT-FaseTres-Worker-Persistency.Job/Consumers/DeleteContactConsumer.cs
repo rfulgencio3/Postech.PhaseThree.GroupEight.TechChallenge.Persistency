@@ -28,7 +28,7 @@ public class DeleteContactConsumer : IConsumer<DeleteContactEvent>
         var integrationMessage = new DeleteIntegrationModel
         {
             Id = model.Id,
-            OperationType = "delete"
+            OperationType = nameof(DeleteContactEvent),
         };
 
         await _publishEndpoint.Publish(integrationMessage);
