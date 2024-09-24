@@ -1,6 +1,5 @@
 ﻿using MassTransit;
-using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Application.Events;
-using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Application.IntegrationModels;
+using Postech.GroupEight.TechChallenge.ContactManagement.Events;
 using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Application.Services.Interfaces;
 using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Core.Entities;
 
@@ -31,6 +30,7 @@ public class CreateContactConsumer : IConsumer<CreateContactEvent>
             LastName = model.ContactLastName,
             Email = model.ContactEmail,
             PhoneNumber = model.ContactPhoneNumber,
+            PhoneNumberAreaCode = model.ContactPhoneNumberAreaCode,
             CreatedAt = DateTime.UtcNow,
             Active = true,
         };
@@ -45,8 +45,8 @@ public class CreateContactConsumer : IConsumer<CreateContactEvent>
             Email = model.ContactEmail,
             PhoneNumber = model.ContactPhoneNumber,
             CreatedAt = DateTime.UtcNow,
-            Active = true,
-            EventType = model.EventType,
+            //Active = true,
+            EventType = "create",
         };
 
         await _publishEndpoint.Publish(integrationMessage);

@@ -2,7 +2,7 @@
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using Moq;
-using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Application.Events;
+using Postech.GroupEight.TechChallenge.ContactManagement.Events;
 using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Application.Services.Interfaces;
 using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Core.Entities;
 using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Job.Consumers;
@@ -29,8 +29,8 @@ public class CreateContactConsumerTests
             .RuleFor(c => c.ContactFirstName, f => f.Name.FirstName())
             .RuleFor(c => c.ContactLastName, f => f.Name.LastName())
             .RuleFor(c => c.ContactEmail, f => f.Internet.Email())
-            .RuleFor(c => c.ContactPhoneNumber, f => f.Phone.PhoneNumber())
-            .RuleFor(c => c.EventType, "create");
+            .RuleFor(c => c.ContactPhoneNumber, f => f.Phone.PhoneNumber());
+            //.RuleFor(c => c.EventType, "create");
 
         _createContactConsumer = new CreateContactConsumer(_contactServiceMock.Object, _publishEndpointMock.Object, _loggerMock.Object);
     }

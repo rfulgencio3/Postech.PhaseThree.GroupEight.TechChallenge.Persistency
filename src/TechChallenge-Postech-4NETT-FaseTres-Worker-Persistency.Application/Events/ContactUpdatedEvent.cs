@@ -1,7 +1,8 @@
 ﻿namespace Postech.GroupEight.TechChallenge.ContactManagement.Events;
 
-public class CreateContactEvent
+public class ContactUpdatedEvent
 {
+    public required Guid ContactId { get; set; }
     public required string ContactFirstName { get; set; }
     public required string ContactLastName { get; set; }
     public required string ContactEmail { get; set; }

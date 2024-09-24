@@ -44,14 +44,25 @@ var host = Host.CreateDefaultBuilder(args)
 
                 cfg.ReceiveEndpoint("contact.create", e =>
                 {
+                    e.Bind("contact.management", e =>
+                    {
+                        e.RoutingKey = "CreateContactEvent";
+                        e.ExchangeType = "direct";
+                    });
                     e.UseRawJsonDeserializer();
                     e.ConfigureConsumer<CreateContactConsumer>(context);
+                    e.ConfigureConsumeTopology = false;
 
                     e.SetQueueArgument("x-dead-letter-exchange", "contact.create.dlq");
                 });
 
                 cfg.ReceiveEndpoint("contact.update", e =>
                 {
+                    e.Bind("contact.management", e =>
+                    {
+                        e.RoutingKey = "ContactUpdatedEvent";
+                        e.ExchangeType = "direct";
+                    });
                     e.UseRawJsonDeserializer();
                     e.ConfigureConsumer<UpdateContactConsumer>(context);
 

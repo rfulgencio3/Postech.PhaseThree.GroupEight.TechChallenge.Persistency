@@ -1,6 +1,5 @@
 ﻿using MassTransit;
-using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Application.Events;
-using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Application.IntegrationModels;
+using Postech.GroupEight.TechChallenge.ContactManagement.Events;
 using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Application.Services.Interfaces;
 
 namespace Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Job.Consumers;

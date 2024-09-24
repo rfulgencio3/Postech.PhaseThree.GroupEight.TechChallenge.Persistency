@@ -1,4 +1,4 @@
-﻿namespace Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Application.IntegrationModels;
+﻿namespace Postech.GroupEight.TechChallenge.ContactManagement.Events;
 
 public class ContactIntegrationModel
 {
@@ -9,6 +9,6 @@ public class ContactIntegrationModel
     public string? PhoneNumber { get; set; }
     public DateTime? CreatedAt { get; set; }
     public DateTime? ModifiedAt { get; set; }
-    public bool Active { get; set; }
+    //public bool Active { get; set; }
     public required string EventType { get; set; }
 }

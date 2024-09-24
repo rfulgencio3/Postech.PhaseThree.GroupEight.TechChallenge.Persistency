@@ -1,12 +1,11 @@
 ﻿using MassTransit;
-using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Application.Events;
-using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Application.IntegrationModels;
+using Postech.GroupEight.TechChallenge.ContactManagement.Events;
 using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Application.Services.Interfaces;
 using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Core.Entities;
 
 namespace Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Job.Consumers;
 
-public class UpdateContactConsumer : IConsumer<UpdateContactEvent>
+public class UpdateContactConsumer : IConsumer<ContactUpdatedEvent>
 {
     private readonly IContactService _contactService;
     private readonly IPublishEndpoint _publishEndpoint;
@@ -19,7 +18,7 @@ public class UpdateContactConsumer : IConsumer<UpdateContactEvent>
         _logger = logger;
     }
 
-    public async Task Consume(ConsumeContext<UpdateContactEvent> context)
+    public async Task Consume(ConsumeContext<ContactUpdatedEvent> context)
     {
         _logger.LogInformation("Received UpdateContact message at: {time}", DateTimeOffset.Now);
 
@@ -27,27 +26,28 @@ public class UpdateContactConsumer : IConsumer<UpdateContactEvent>
 
         var contact = new ContactEntity
         {
-            Id = model.Id,
+            Id = model.ContactId,
             FirstName = model.ContactFirstName,
             LastName = model.ContactLastName,
             Email = model.ContactEmail,
             PhoneNumber = model.ContactPhoneNumber,
+            PhoneNumberAreaCode = model.ContactPhoneNumberAreaCode,
             ModifiedAt = DateTime.UtcNow,
-            Active = model.Active
+            //Active = model.Active
         };
 
         await _contactService.UpdateContactHandlerAsync(contact);
 
         var integrationMessage = new ContactIntegrationModel
         {
-            Id = model.Id,
+            Id = model.ContactId,
             FirstName = model.ContactFirstName,
             LastName = model.ContactLastName,
             Email = model.ContactEmail,
             PhoneNumber = model.ContactPhoneNumber,
             ModifiedAt = DateTime.UtcNow,
-            Active = model.Active,
-            EventType = model.EventType,
+            //Active = model.Active,
+            EventType = "update",
         };
 
         await _publishEndpoint.Publish(integrationMessage);
