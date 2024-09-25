@@ -1,6 +1,6 @@
 ﻿namespace Postech.GroupEight.TechChallenge.ContactManagement.Events;
 
-public class DeleteContactEvent
+public class ContactDeletedEvent
 {
-    public int Id { get; set; }
+    public Guid ContactId { get; set; }
 }

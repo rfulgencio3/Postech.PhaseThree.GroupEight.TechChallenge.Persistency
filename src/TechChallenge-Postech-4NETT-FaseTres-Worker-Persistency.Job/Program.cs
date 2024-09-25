@@ -7,6 +7,9 @@ using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Infra.Data;
 using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Core.Interfaces;
 using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Job;
 using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Job.Consumers;
+using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Application.Producers.Interfaces;
+using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Infra.Producer;
+using Postech.GroupEight.TechChallenge.ContactManagement.Events;
 
 var host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((context, services) =>
@@ -16,6 +19,8 @@ var host = Host.CreateDefaultBuilder(args)
 
         services.AddScoped<IContactRepository, ContactRepository>();
         services.AddScoped<IContactService, ContactService>();
+
+        services.AddScoped<IIntegrationProducer, IntegrationProducer>();
 
         var rabbitMqConfig = context.Configuration.GetSection("RabbitMQ");
         var rabbitMqUser = rabbitMqConfig["Username"];
@@ -33,7 +38,7 @@ var host = Host.CreateDefaultBuilder(args)
             x.AddConsumer<CreateContactConsumer>();
             x.AddConsumer<UpdateContactConsumer>();
             x.AddConsumer<DeleteContactConsumer>();
-
+            
             x.UsingRabbitMq((context, cfg) =>
             {
                 cfg.Host(rabbitMqHost, "/", host =>
@@ -70,6 +75,11 @@ var host = Host.CreateDefaultBuilder(args)
 
                 cfg.ReceiveEndpoint("contact.delete", e =>
                 {
+                    e.Bind("contact.management", e =>
+                    {
+                        e.RoutingKey = "ContactDeletedEvent";
+                        e.ExchangeType = "direct";
+                    });
                     e.UseRawJsonDeserializer();
                     e.ConfigureConsumer<DeleteContactConsumer>(context);
 
@@ -79,6 +89,11 @@ var host = Host.CreateDefaultBuilder(args)
                 cfg.ReceiveEndpoint("contact.create.dlq", e => { e.UseRawJsonDeserializer(); });
                 cfg.ReceiveEndpoint("contact.update.dlq", e => { e.UseRawJsonDeserializer(); });
                 cfg.ReceiveEndpoint("contact.delete.dlq", e => { e.UseRawJsonDeserializer(); });
+
+                cfg.Message<ContactIntegrationModel>(e =>
+                {
+                    e.SetEntityName("contact.integration"); 
+                });
             });
         });
 

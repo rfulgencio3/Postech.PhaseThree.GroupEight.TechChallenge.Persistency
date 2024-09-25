@@ -1,5 +1,6 @@
 ﻿using MassTransit;
 using Postech.GroupEight.TechChallenge.ContactManagement.Events;
+using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Application.Producers.Interfaces;
 using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Application.Services.Interfaces;
 using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Core.Entities;
 
@@ -8,13 +9,13 @@ namespace Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Job.Consumers;
 public class CreateContactConsumer : IConsumer<CreateContactEvent>
 {
     private readonly IContactService _contactService;
-    private readonly IPublishEndpoint _publishEndpoint;
+    private readonly IIntegrationProducer _producer;
     private readonly ILogger<CreateContactConsumer> _logger;
 
-    public CreateContactConsumer(IContactService contactService, IPublishEndpoint publishEndpoint, ILogger<CreateContactConsumer> logger)
+    public CreateContactConsumer(IContactService contactService, IIntegrationProducer producer, ILogger<CreateContactConsumer> logger)
     {
         _contactService = contactService;
-        _publishEndpoint = publishEndpoint;
+        _producer = producer;
         _logger = logger;
     }
 
@@ -51,7 +52,7 @@ public class CreateContactConsumer : IConsumer<CreateContactEvent>
             EventType = nameof(CreateContactEvent),
         };
 
-        await _publishEndpoint.Publish(integrationMessage);
+        await _producer.PublishAsync(integrationMessage);
 
         _logger.LogInformation("Published integration message for CreateContact at: {time}", DateTimeOffset.Now);
     }

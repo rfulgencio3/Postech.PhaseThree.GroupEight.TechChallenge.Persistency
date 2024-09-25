@@ -12,19 +12,19 @@ public class DeleteContactConsumerTests
 {
     private readonly Mock<IContactService> _contactServiceMock;
     private readonly Mock<IPublishEndpoint> _publishEndpointMock;
-    private readonly Mock<ConsumeContext<DeleteContactEvent>> _consumeContextMock;
+    private readonly Mock<ConsumeContext<ContactDeletedEvent>> _consumeContextMock;
     private readonly Mock<ILogger<DeleteContactConsumer>> _loggerMock;
-    private readonly Faker<DeleteContactEvent> _deleteContactEventFaker;
+    private readonly Faker<ContactDeletedEvent> _deleteContactEventFaker;
 
     public DeleteContactConsumerTests()
     {
         _contactServiceMock = new Mock<IContactService>();
         _publishEndpointMock = new Mock<IPublishEndpoint>();
-        _consumeContextMock = new Mock<ConsumeContext<DeleteContactEvent>>();
+        _consumeContextMock = new Mock<ConsumeContext<ContactDeletedEvent>>();
         _loggerMock = new Mock<ILogger<DeleteContactConsumer>>();
 
-        _deleteContactEventFaker = new Faker<DeleteContactEvent>()
-            .RuleFor(e => e.Id, f => f.Random.Int(1, 1000));
+        _deleteContactEventFaker = new Faker<ContactDeletedEvent>();
+            //.RuleFor(e => e.Id, f => f.Random.Int(1, 1000));
     }
 
     [Fact]
@@ -41,7 +41,7 @@ public class DeleteContactConsumerTests
         await deleteContactConsumer.Consume(_consumeContextMock.Object);
 
         // Assert
-        _contactServiceMock.Verify(s => s.DeleteContactHandlerAsync(deleteEvent.Id), Times.Once);
+        _contactServiceMock.Verify(s => s.DeleteContactHandlerAsync(deleteEvent.ContactId), Times.Once);
         _publishEndpointMock.Verify(p => p.Publish(It.IsAny<DeleteIntegrationModel>(), default), Times.Once);
     }
 }

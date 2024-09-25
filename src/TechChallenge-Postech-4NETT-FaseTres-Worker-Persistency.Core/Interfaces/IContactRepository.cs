@@ -6,6 +6,6 @@ namespace Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Core.Interface
     {
         Task CreateContactAsync(ContactEntity contact);
         Task UpdateContactAsync(ContactEntity contact);
-        Task DeleteContactAsync(int id);
+        Task DeleteContactAsync(Guid id);
     }
 }

@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MassTransit" Version="8.2.4" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\TechChallenge-Postech-4NETT-FaseTres-Worker-Persistency.Core\Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Core.csproj" />
     <ProjectReference Include="..\TechChallenge-Postech-4NETT-FaseTres-Worker-Persistency.Infrastructure\Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Infra.csproj" />
   </ItemGroup>

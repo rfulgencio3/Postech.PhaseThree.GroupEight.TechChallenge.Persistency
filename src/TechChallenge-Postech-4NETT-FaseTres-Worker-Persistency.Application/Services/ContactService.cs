@@ -24,7 +24,7 @@ public class ContactService : IContactService
         await _contactRepository.UpdateContactAsync(contact);
     }
 
-    public async Task DeleteContactHandlerAsync(int id)
+    public async Task DeleteContactHandlerAsync(Guid id)
     {
         await _contactRepository.DeleteContactAsync(id);
     }

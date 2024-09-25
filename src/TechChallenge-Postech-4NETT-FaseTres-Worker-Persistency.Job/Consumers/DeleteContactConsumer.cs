@@ -4,7 +4,7 @@ using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Application.Servic
 
 namespace Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Job.Consumers;
 
-public class DeleteContactConsumer : IConsumer<DeleteContactEvent>
+public class DeleteContactConsumer : IConsumer<ContactDeletedEvent>
 {
     private readonly IContactService _contactService;
     private readonly IPublishEndpoint _publishEndpoint;
@@ -17,18 +17,18 @@ public class DeleteContactConsumer : IConsumer<DeleteContactEvent>
         _logger = logger;
     }
 
-    public async Task Consume(ConsumeContext<DeleteContactEvent> context)
+    public async Task Consume(ConsumeContext<ContactDeletedEvent> context)
     {
         _logger.LogInformation("Received DeleteContact message at: {time}", DateTimeOffset.Now);
 
         var model = context.Message;
 
-        await _contactService.DeleteContactHandlerAsync(model.Id);
+        await _contactService.DeleteContactHandlerAsync(model.ContactId);
 
         var integrationMessage = new DeleteIntegrationModel
         {
-            Id = model.Id,
-            OperationType = nameof(DeleteContactEvent),
+            Id = model.ContactId,
+            OperationType = nameof(ContactDeletedEvent),
         };
 
         await _publishEndpoint.Publish(integrationMessage);
