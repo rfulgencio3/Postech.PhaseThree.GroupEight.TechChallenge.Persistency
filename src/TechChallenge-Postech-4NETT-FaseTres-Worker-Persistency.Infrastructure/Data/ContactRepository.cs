@@ -1,6 +1,7 @@
 ﻿using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Infra.Contexts;
 using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Core.Entities;
 using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Core.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Infra.Data;
 
@@ -37,7 +38,10 @@ public class ContactRepository : IContactRepository
 
     public async Task<ContactEntity> GetContactByIdAsync(Guid id)
     {
-        var contact = await _context.Contacts.FindAsync(id);
+        var contact = await _context.Contacts
+            .Where(c => c.ContactId == id && c.Active)
+            .SingleOrDefaultAsync();
+
         if (contact != null)
         {
             return contact;
