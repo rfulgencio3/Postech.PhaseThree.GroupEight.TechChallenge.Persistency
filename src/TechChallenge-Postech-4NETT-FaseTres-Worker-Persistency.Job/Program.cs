@@ -1,19 +1,28 @@
-﻿using MassTransit;
+﻿using FluentMigrator.Runner;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using Postech.GroupEight.TechChallenge.ContactManagement.Events;
+using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Application.Producers.Interfaces;
 using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Application.Services;
 using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Application.Services.Interfaces;
+using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Core.Interfaces;
 using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Infra.Contexts;
 using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Infra.Data;
-using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Core.Interfaces;
+using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Infra.Migrations;
+using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Infra.Producer;
 using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Job;
 using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Job.Consumers;
-using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Application.Producers.Interfaces;
-using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Infra.Producer;
-using Postech.GroupEight.TechChallenge.ContactManagement.Events;
 
 var host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((context, services) =>
     {
+        services.AddFluentMigratorCore()
+            .ConfigureRunner(rb => rb
+                .AddPostgres()
+                .WithGlobalConnectionString(context.Configuration.GetConnectionString("DefaultConnection"))
+                .ScanIn(typeof(CreateContactsSchema).Assembly).For.Migrations()) 
+            .AddLogging(lb => lb.AddFluentMigratorConsole());
+
         services.AddDbContext<ContactManagementDbContext>(options =>
             options.UseNpgsql(context.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -38,7 +47,7 @@ var host = Host.CreateDefaultBuilder(args)
             x.AddConsumer<CreateContactConsumer>();
             x.AddConsumer<UpdateContactConsumer>();
             x.AddConsumer<DeleteContactConsumer>();
-            
+
             x.UsingRabbitMq((context, cfg) =>
             {
                 cfg.Host(rabbitMqHost, "/", host =>
@@ -92,7 +101,7 @@ var host = Host.CreateDefaultBuilder(args)
 
                 cfg.Message<ContactIntegrationModel>(e =>
                 {
-                    e.SetEntityName("contact.integration"); 
+                    e.SetEntityName("contact.integration");
                 });
             });
         });
@@ -108,20 +117,38 @@ var host = Host.CreateDefaultBuilder(args)
 
 using (var scope = host.Services.CreateScope())
 {
+    var serviceProvider = scope.ServiceProvider;
+    var migrationRunner = serviceProvider.GetRequiredService<IMigrationRunner>();
+
+    try
+    {
+        var logger = serviceProvider.GetRequiredService<ILogger<Program>>();
+        logger.LogInformation("Starting FluentMigrator database migration...");
+
+        migrationRunner.MigrateUp();  
+
+        logger.LogInformation("FluentMigrator database migration completed successfully.");
+    }
+    catch (Exception ex)
+    {
+        var logger = serviceProvider.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred while applying FluentMigrator migrations.");
+    }
+
     var dbContext = scope.ServiceProvider.GetRequiredService<ContactManagementDbContext>();
     try
     {
         var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
-        logger.LogInformation("Starting database migration...");
+        logger.LogInformation("Starting EF Core database migration...");
 
-        dbContext.Database.Migrate();
+        dbContext.Database.Migrate();  
 
-        logger.LogInformation("Database migration completed successfully.");
+        logger.LogInformation("EF Core database migration completed successfully.");
     }
     catch (Exception ex)
     {
         var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
-        logger.LogError(ex, "An error occurred while applying migrations.");
+        logger.LogError(ex, "An error occurred while applying EF Core migrations.");
     }
 }
 
