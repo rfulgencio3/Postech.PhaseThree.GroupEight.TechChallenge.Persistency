@@ -51,7 +51,6 @@ var host = Host.CreateDefaultBuilder(args)
                     });
                     e.UseRawJsonDeserializer();
                     e.ConfigureConsumer<CreateContactConsumer>(context);
-                    e.ConfigureConsumeTopology = false;
 
                     e.SetQueueArgument("x-dead-letter-exchange", "contact.create.dlq");
                 });

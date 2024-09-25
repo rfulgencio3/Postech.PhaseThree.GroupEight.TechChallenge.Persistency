@@ -9,7 +9,7 @@ public class ContactEntity
     public ContactPhoneEntity ContactPhone { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime? ModifiedAt { get; private set; }
-    public bool Active { get; private set; }
+    public bool Active { get; set; }
 
     public ContactEntity(Guid contactId, string firstName, string lastName, string email, ContactPhoneEntity contactPhone)
     {

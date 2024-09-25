@@ -19,11 +19,11 @@ public class ContactServiceTest
         _contactService = new ContactService(_contactRepositoryMock.Object);
 
         _contactFaker = new Faker<ContactEntity>()
-            .RuleFor(c => c.Id, f => Guid.NewGuid())
+            .RuleFor(c => c.ContactId, f => Guid.NewGuid())
             .RuleFor(c => c.FirstName, f => f.Name.FirstName())
             .RuleFor(c => c.LastName, f => f.Name.LastName())
-            .RuleFor(c => c.Email, f => f.Internet.Email())
-            .RuleFor(c => c.PhoneNumber, f => f.Phone.PhoneNumber());
+            .RuleFor(c => c.Email, f => f.Internet.Email());
+            //.RuleFor(c => c.PhoneNumber, f => f.Phone.PhoneNumber());
     }
 
     [Fact]
@@ -40,7 +40,7 @@ public class ContactServiceTest
         var result = await _contactService.CreateContactHandlerAsync(contact);
 
         // Assert
-        result.Should().Be(contact.Id);
+        result.Should().Be(contact.ContactId);
         _contactRepositoryMock.Verify(repo => repo.CreateContactAsync(It.IsAny<ContactEntity>()), Times.Once);
     }
 
