@@ -1,7 +1,7 @@
 ﻿using MassTransit;
 using Postech.GroupEight.TechChallenge.ContactManagement.Events;
 using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Application.Services.Interfaces;
-using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Core.Entities;
+using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Core.Entities.Enums;
 
 namespace Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Job.Consumers;
 
@@ -24,32 +24,36 @@ public class UpdateContactConsumer : IConsumer<ContactUpdatedEvent>
 
         var model = context.Message;
 
-        var contactPhoneAreaCode = short.Parse(model.ContactPhoneNumberAreaCode.ToString());
-        var contactPhone = int.Parse(model.ContactPhoneNumber.ToString());
+        var existingContact = await _contactService.GetContactByIdAsync(model.ContactId);
 
-        var contact = new ContactEntity(
-            model.ContactId,
-            model.ContactFirstName,
-            model.ContactLastName,
-            model.ContactEmail,
-            contactPhoneAreaCode,
-            contactPhone
+        if (existingContact == null)
+        {
+            _logger.LogError("Contact with ID {ContactId} not found.", model.ContactId);
+            return;
+        }
+
+        existingContact.UpdateFirstName(!string.IsNullOrWhiteSpace(model.ContactFirstName) ? model.ContactFirstName : existingContact.FirstName);
+        existingContact.UpdateLastName(!string.IsNullOrWhiteSpace(model.ContactLastName) ? model.ContactLastName : existingContact.LastName);
+        existingContact.UpdateEmail(!string.IsNullOrWhiteSpace(model.ContactEmail) ? model.ContactEmail : existingContact.Email);
+
+        existingContact.UpdatePhone(
+            short.TryParse(model.ContactPhoneNumberAreaCode, out var areaCode) ? areaCode : existingContact.ContactPhoneAreaCode,
+            int.TryParse(model.ContactPhoneNumber, out var phone) ? phone : existingContact.ContactPhone
         );
 
-        contact.SetModifiedAt();
+        existingContact.SetModifiedAt();
 
-        await _contactService.UpdateContactHandlerAsync(contact);
+        await _contactService.UpdateContactHandlerAsync(existingContact);
 
-        // Publica a mensagem de integração
         var integrationMessage = new ContactIntegrationModel
         {
             Id = model.ContactId,
-            FirstName = model.ContactFirstName,
-            LastName = model.ContactLastName,
-            Email = model.ContactEmail,
+            FirstName = existingContact.FirstName,
+            LastName = existingContact.LastName,
+            Email = existingContact.Email,
             PhoneNumber = model.ContactPhoneNumber,
-            ModifiedAt = DateTime.UtcNow,
-            EventType = nameof(ContactUpdatedEvent),
+            ModifiedAt = existingContact.ModifiedAt,
+            EventType = EventType.Update,
         };
 
         await _publishEndpoint.Publish(integrationMessage);
@@ -57,3 +61,4 @@ public class UpdateContactConsumer : IConsumer<ContactUpdatedEvent>
         _logger.LogInformation("Published integration message for UpdateContact at: {time}", DateTimeOffset.Now);
     }
 }
+

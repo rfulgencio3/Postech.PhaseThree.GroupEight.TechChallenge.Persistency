@@ -34,4 +34,14 @@ public class ContactRepository : IContactRepository
             await _context.SaveChangesAsync();
         }
     }
+
+    public async Task<ContactEntity> GetContactByIdAsync(Guid id)
+    {
+        var contact = await _context.Contacts.FindAsync(id);
+        if (contact != null)
+        {
+            return contact;
+        }
+        return null!;
+    }
 }

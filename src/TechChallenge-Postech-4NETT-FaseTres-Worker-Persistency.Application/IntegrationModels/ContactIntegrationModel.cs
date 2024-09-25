@@ -1,4 +1,6 @@
-﻿namespace Postech.GroupEight.TechChallenge.ContactManagement.Events;
+﻿using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Core.Entities.Enums;
+
+namespace Postech.GroupEight.TechChallenge.ContactManagement.Events;
 
 public class ContactIntegrationModel
 {
@@ -9,5 +11,5 @@ public class ContactIntegrationModel
     public string? PhoneNumber { get; set; }
     public DateTime? CreatedAt { get; set; }
     public DateTime? ModifiedAt { get; set; }
-    public required string EventType { get; set; }
+    public required EventType EventType { get; set; }
 }

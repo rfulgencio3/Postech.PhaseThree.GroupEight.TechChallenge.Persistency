@@ -28,4 +28,9 @@ public class ContactService : IContactService
     {
         await _contactRepository.DeleteContactAsync(id);
     }
+
+    public async Task<ContactEntity> GetContactByIdAsync(Guid id)
+    {
+        return  await _contactRepository.GetContactByIdAsync(id);
+    }
 }

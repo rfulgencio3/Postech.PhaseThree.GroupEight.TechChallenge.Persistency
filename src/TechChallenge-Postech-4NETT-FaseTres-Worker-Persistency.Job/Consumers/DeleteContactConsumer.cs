@@ -1,6 +1,7 @@
 ﻿using MassTransit;
 using Postech.GroupEight.TechChallenge.ContactManagement.Events;
 using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Application.Services.Interfaces;
+using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Core.Entities.Enums;
 
 namespace Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Job.Consumers;
 
@@ -28,7 +29,7 @@ public class DeleteContactConsumer : IConsumer<ContactDeletedEvent>
         var integrationMessage = new DeleteIntegrationModel
         {
             Id = model.ContactId,
-            OperationType = nameof(ContactDeletedEvent),
+            EventType = EventType.Delete
         };
 
         await _publishEndpoint.Publish(integrationMessage);

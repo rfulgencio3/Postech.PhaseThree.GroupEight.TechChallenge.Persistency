@@ -3,6 +3,7 @@ using Postech.GroupEight.TechChallenge.ContactManagement.Events;
 using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Application.Producers.Interfaces;
 using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Application.Services.Interfaces;
 using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Core.Entities;
+using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Core.Entities.Enums;
 
 namespace Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Job.Consumers;
 
@@ -50,7 +51,7 @@ public class CreateContactConsumer : IConsumer<CreateContactEvent>
             Email = model.ContactEmail,
             PhoneNumber = model.ContactPhoneNumber,
             CreatedAt = DateTime.UtcNow,
-            EventType = nameof(CreateContactEvent),
+            EventType = EventType.Create,
         };
 
         await _producer.PublishAsync(integrationMessage);

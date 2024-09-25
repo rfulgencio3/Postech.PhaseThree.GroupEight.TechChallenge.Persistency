@@ -23,6 +23,27 @@ public class ContactEntity
         Active = true;
     }
 
+    public void UpdateFirstName(string firstName)
+    {
+        FirstName = firstName;
+    }
+
+    public void UpdateLastName(string lastName)
+    {
+        LastName = lastName;
+    }
+
+    public void UpdateEmail(string email)
+    {
+        Email = email;
+    }
+
+    public void UpdatePhone(short areaCode, int phone)
+    {
+        ContactPhoneAreaCode = areaCode;
+        ContactPhone = phone;
+    }
+
     public void SetModifiedAt()
     {
         ModifiedAt = DateTime.UtcNow;
