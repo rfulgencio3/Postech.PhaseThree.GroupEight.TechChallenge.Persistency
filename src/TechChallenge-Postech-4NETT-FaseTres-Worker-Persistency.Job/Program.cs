@@ -134,22 +134,6 @@ using (var scope = host.Services.CreateScope())
         var logger = serviceProvider.GetRequiredService<ILogger<Program>>();
         logger.LogError(ex, "An error occurred while applying FluentMigrator migrations.");
     }
-
-    var dbContext = scope.ServiceProvider.GetRequiredService<ContactManagementDbContext>();
-    try
-    {
-        var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
-        logger.LogInformation("Starting EF Core database migration...");
-
-        dbContext.Database.Migrate();  
-
-        logger.LogInformation("EF Core database migration completed successfully.");
-    }
-    catch (Exception ex)
-    {
-        var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
-        logger.LogError(ex, "An error occurred while applying EF Core migrations.");
-    }
 }
 
 await host.RunAsync();
