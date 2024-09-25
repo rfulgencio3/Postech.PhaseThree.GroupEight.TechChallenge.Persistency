@@ -26,14 +26,15 @@ public class CreateContactConsumer : IConsumer<CreateContactEvent>
         var model = context.Message;
         var contactId = Guid.NewGuid();
 
-        var areaCode = new AreaCodeEntity(model.ContactPhoneNumberAreaCode);
-        var contactPhone = new ContactPhoneEntity(model.ContactPhoneNumber, areaCode);
+        var contactPhoneAreaCode = short.Parse(model.ContactPhoneNumberAreaCode.ToString());
+        var contactPhone = int.Parse(model.ContactPhoneNumber.ToString());
 
         var contact = new ContactEntity(
             contactId,
             model.ContactFirstName,
             model.ContactLastName,
             model.ContactEmail,
+            contactPhoneAreaCode,
             contactPhone
         );
 
