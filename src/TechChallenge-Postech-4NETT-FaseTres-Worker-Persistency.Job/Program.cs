@@ -1,4 +1,5 @@
 ﻿using FluentMigrator.Runner;
+using FluentMigrator.Runner.Processors;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Postech.GroupEight.TechChallenge.ContactManagement.Events;
