@@ -9,13 +9,16 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_DB: "ContactManagementDB"
+      POSTGRES_DB: "ContactManagementDb"
       POSTGRES_USER: "admin"
       POSTGRES_PASSWORD: "Admin*123"
     networks:
-      - app-network
+      techchallenge-postech-4nett-fasetres-worker-persistency_custom_network:
+        ipv4_address: 192.168.80.5
+    volumes:
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
 
-   # PostgreSQL Exporter
+  # PostgreSQL Exporter
   postgres-exporter:
     image: wrouesnel/postgres_exporter:latest
     container_name: postgres_exporter
@@ -23,12 +26,13 @@ services:
     ports:
       - "9187:9187"
     environment:
-      DATA_SOURCE_NAME: "postgresql://admin:Admin*123@db:5432/ContactManagementDB?sslmode=disable"
+      DATA_SOURCE_NAME: "postgresql://admin:Admin*123@db:5432/ContactManagementDb?sslmode=disable"
     depends_on:
       - db
     networks:
-      - app-network
+      - techchallenge-postech-4nett-fasetres-worker-persistency_custom_network
 
+  # Worker Persistency
   worker-persistency:
     build:
       context: .
@@ -45,8 +49,8 @@ services:
       - db
       - rabbitmq
     networks:
-      - app-network
-      
+      - techchallenge-postech-4nett-fasetres-worker-persistency_custom_network
+
   # pgAdmin Web Interface
   pgadmin:
     image: dpage/pgadmin4
@@ -59,10 +63,8 @@ services:
       PGADMIN_DEFAULT_PASSWORD: "Admin*123"
     depends_on:
       - db
-    links:
-      - db:postgres
     networks:
-      - app-network
+      - techchallenge-postech-4nett-fasetres-worker-persistency_custom_network
 
   # RabbitMQ Message Broker
   rabbitmq:
@@ -71,17 +73,17 @@ services:
     restart: always
     ports:
       - "5672:5672"
-      - "15672:15672" 
+      - "15672:15672"
       - "15692:15692"
     environment:
       RABBITMQ_DEFAULT_USER: "admin"
       RABBITMQ_DEFAULT_PASS: "Admin*123"
       RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS: "-rabbitmq_prometheus"
-    labels:
-      - "rabbitmq.version=3-management"
     networks:
-      - app-network
+      techchallenge-postech-4nett-fasetres-worker-persistency_custom_network:
+        ipv4_address: 192.168.80.6
 
+  # Prometheus
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus
@@ -92,8 +94,9 @@ services:
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
     networks:
-      - app-network
+      - techchallenge-postech-4nett-fasetres-worker-persistency_custom_network
 
+  # Grafana
   grafana:
     image: grafana/grafana:latest
     container_name: grafana
@@ -102,13 +105,14 @@ services:
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=admin
     networks:
-      - app-network
+      - techchallenge-postech-4nett-fasetres-worker-persistency_custom_network
 
+  # cAdvisor
   cadvisor:
     image: google/cadvisor:latest
     container_name: cAdvisor
     restart: always
-    ports:         
+    ports:
       - "8080:8080"
     volumes:
       - /:/rootfs:ro
@@ -117,8 +121,11 @@ services:
       - /var/lib/docker/:/var/lib/docker:ro
       - /etc/machine-id:/etc/machine-id:ro
     networks:
-      - app-network
+      - techchallenge-postech-4nett-fasetres-worker-persistency_custom_network
 
 networks:
-  app-network:
-    external: true
+  techchallenge-postech-4nett-fasetres-worker-persistency_custom_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.80.0/24

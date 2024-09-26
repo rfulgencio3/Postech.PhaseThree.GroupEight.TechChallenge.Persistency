@@ -22,4 +22,4 @@ RUN dotnet publish "Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Job.
 FROM build AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Postech.PhaseThree.GroupEight.TechChallenge.Persistency.dll"]
+ENTRYPOINT ["dotnet", "Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Job.dll"]

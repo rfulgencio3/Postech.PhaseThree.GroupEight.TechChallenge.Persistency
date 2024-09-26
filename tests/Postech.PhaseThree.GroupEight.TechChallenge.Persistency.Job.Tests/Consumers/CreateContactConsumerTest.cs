@@ -32,7 +32,7 @@ public class CreateContactConsumerTests
             .RuleFor(c => c.ContactPhoneNumber, f => f.Phone.PhoneNumber());
             //.RuleFor(c => c.EventType, "create");
 
-        _createContactConsumer = new CreateContactConsumer(_contactServiceMock.Object, _publishEndpointMock.Object, _loggerMock.Object);
+        //_createContactConsumer = new CreateContactConsumer(_contactServiceMock.Object, _publishEndpointMock.Object, _loggerMock.Object);
     }
 
     [Fact]
