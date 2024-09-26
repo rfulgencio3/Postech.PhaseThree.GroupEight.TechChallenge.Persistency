@@ -12,7 +12,41 @@ services:
       POSTGRES_DB: "ContactManagementDB"
       POSTGRES_USER: "admin"
       POSTGRES_PASSWORD: "Admin*123"
+    networks:
+      - app-network
 
+   # PostgreSQL Exporter
+  postgres-exporter:
+    image: wrouesnel/postgres_exporter:latest
+    container_name: postgres_exporter
+    restart: always
+    ports:
+      - "9187:9187"
+    environment:
+      DATA_SOURCE_NAME: "postgresql://admin:Admin*123@db:5432/ContactManagementDB?sslmode=disable"
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  worker-persistency:
+    build:
+      context: .
+      dockerfile: src/TechChallenge-Postech-4NETT-FaseTres-Worker-Persistency.Job/Dockerfile
+    container_name: contact_persistency_worker
+    restart: always
+    ports:
+      - "5008:5008"
+      - "5679:5679"
+    environment:
+      RABBITMQ_HOST: "rabbitmq"
+      RABBITMQ_PORT: "5672"
+    depends_on:
+      - db
+      - rabbitmq
+    networks:
+      - app-network
+      
   # pgAdmin Web Interface
   pgadmin:
     image: dpage/pgadmin4
@@ -27,6 +61,8 @@ services:
       - db
     links:
       - db:postgres
+    networks:
+      - app-network
 
   # RabbitMQ Message Broker
   rabbitmq:
@@ -34,11 +70,55 @@ services:
     container_name: rabbitmq_container
     restart: always
     ports:
-      - "5672:5672"    # RabbitMQ port
-      - "15672:15672"  # Management UI port
+      - "5672:5672"
+      - "15672:15672" 
+      - "15692:15692"
     environment:
       RABBITMQ_DEFAULT_USER: "admin"
       RABBITMQ_DEFAULT_PASS: "Admin*123"
+      RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS: "-rabbitmq_prometheus"
     labels:
       - "rabbitmq.version=3-management"
+    networks:
+      - app-network
 
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    networks:
+      - app-network
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    networks:
+      - app-network
+
+  cadvisor:
+    image: google/cadvisor:latest
+    container_name: cAdvisor
+    restart: always
+    ports:         
+      - "8080:8080"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /etc/machine-id:/etc/machine-id:ro
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    external: true

@@ -12,6 +12,7 @@ using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Infra.Migrations;
 using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Infra.Producer;
 using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Job;
 using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Job.Consumers;
+using Prometheus;
 
 var host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((context, services) =>
@@ -107,6 +108,10 @@ var host = Host.CreateDefaultBuilder(args)
         });
 
         services.AddHostedService<Start>();
+
+        var metricsServer = new KestrelMetricServer(port: 5679); 
+        metricsServer.Start();
+
     })
     .ConfigureLogging(logging =>
     {
