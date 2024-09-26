@@ -15,13 +15,20 @@ using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Job.Consumers;
 using Prometheus;
 
 var host = Host.CreateDefaultBuilder(args)
+    .ConfigureAppConfiguration((context, config) =>
+    {
+        var env = context.HostingEnvironment;
+        config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+              .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
+              .AddEnvironmentVariables();
+    })
     .ConfigureServices((context, services) =>
     {
         services.AddFluentMigratorCore()
             .ConfigureRunner(rb => rb
                 .AddPostgres()
                 .WithGlobalConnectionString(context.Configuration.GetConnectionString("DefaultConnection"))
-                .ScanIn(typeof(CreateContactsSchema).Assembly).For.Migrations()) 
+                .ScanIn(typeof(CreateContactsSchema).Assembly).For.Migrations())
             .AddLogging(lb => lb.AddFluentMigratorConsole());
 
         services.AddDbContext<ContactManagementDbContext>(options =>
@@ -32,16 +39,9 @@ var host = Host.CreateDefaultBuilder(args)
 
         services.AddScoped<IIntegrationProducer, IntegrationProducer>();
 
-        var rabbitMqConfig = context.Configuration.GetSection("RabbitMQ");
-        var rabbitMqUser = rabbitMqConfig["Username"];
-        var rabbitMqPassword = rabbitMqConfig["Password"];
-        var rabbitMqHost = rabbitMqConfig["Host"];
-
-        var loggerFactory = LoggerFactory.Create(builder =>
-        {
-            builder.AddConsole();
-        });
-        var logger = loggerFactory.CreateLogger<Program>();
+        var rabbitMqHost = Environment.GetEnvironmentVariable("RABBITMQ_HOST") ?? context.Configuration.GetSection("RabbitMQ")["Host"];
+        var rabbitMqUser = Environment.GetEnvironmentVariable("RABBITMQ_DEFAULT_USER") ?? context.Configuration.GetSection("RabbitMQ")["Username"];
+        var rabbitMqPassword = Environment.GetEnvironmentVariable("RABBITMQ_DEFAULT_PASS") ?? context.Configuration.GetSection("RabbitMQ")["Password"];
 
         services.AddMassTransit(x =>
         {
@@ -109,7 +109,7 @@ var host = Host.CreateDefaultBuilder(args)
 
         services.AddHostedService<Start>();
 
-        var metricsServer = new KestrelMetricServer(port: 5679); 
+        var metricsServer = new KestrelMetricServer(port: 5679);
         metricsServer.Start();
 
     })
@@ -130,7 +130,7 @@ using (var scope = host.Services.CreateScope())
         var logger = serviceProvider.GetRequiredService<ILogger<Program>>();
         logger.LogInformation("Starting FluentMigrator database migration...");
 
-        migrationRunner.MigrateUp();  
+        migrationRunner.MigrateUp();
 
         logger.LogInformation("FluentMigrator database migration completed successfully.");
     }
