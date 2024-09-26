@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <RootNamespace>Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Job</RootNamespace>
+    <RootNamespace>Postech.TechChallenge.Persistency.Job</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
@@ -17,9 +17,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TechChallenge-Postech-4NETT-FaseTres-Worker-Persistency.Application\Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Application.csproj" />
-    <ProjectReference Include="..\TechChallenge-Postech-4NETT-FaseTres-Worker-Persistency.Core\Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Core.csproj" />
-    <ProjectReference Include="..\TechChallenge-Postech-4NETT-FaseTres-Worker-Persistency.Infrastructure\Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Infra.csproj" />
+    <ProjectReference Include="..\TechChallenge-Postech-4NETT-FaseTres-Worker-Persistency.Application\Postech.TechChallenge.Persistency.Application.csproj" />
+    <ProjectReference Include="..\TechChallenge-Postech-4NETT-FaseTres-Worker-Persistency.Core\Postech.TechChallenge.Persistency.Core.csproj" />
+    <ProjectReference Include="..\TechChallenge-Postech-4NETT-FaseTres-Worker-Persistency.Infrastructure\Postech.TechChallenge.Persistency.Infra.csproj" />
   </ItemGroup>
 
 </Project>

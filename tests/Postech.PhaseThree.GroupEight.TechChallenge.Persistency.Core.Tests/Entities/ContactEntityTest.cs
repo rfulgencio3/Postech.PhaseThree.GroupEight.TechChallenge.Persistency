@@ -1,6 +1,6 @@
 ﻿using Bogus;
 using FluentAssertions;
-using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Core.Entities;
+using Postech.TechChallenge.Persistency.Core.Entities;
 
 namespace Postech.GroupEight.TechChallenge.Tests.Core;
 

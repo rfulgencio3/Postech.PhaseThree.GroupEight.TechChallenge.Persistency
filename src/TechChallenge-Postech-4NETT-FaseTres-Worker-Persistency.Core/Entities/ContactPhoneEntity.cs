@@ -1,4 +1,4 @@
-﻿using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Core.Entities;
+﻿using Postech.TechChallenge.Persistency.Core.Entities;
 
 public class ContactPhoneEntity(string phoneNumber, AreaCodeEntity areaCode)
 {

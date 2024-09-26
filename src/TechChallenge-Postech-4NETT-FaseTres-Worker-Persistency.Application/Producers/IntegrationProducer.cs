@@ -1,8 +1,8 @@
 ﻿using MassTransit;
 using Postech.GroupEight.TechChallenge.ContactManagement.Events;
-using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Application.Producers.Interfaces;
+using Postech.TechChallenge.Persistency.Application.Producers.Interfaces;
 
-namespace Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Infra.Producer;
+namespace Postech.TechChallenge.Persistency.Infra.Producer;
 
 public class IntegrationProducer : IIntegrationProducer
 {

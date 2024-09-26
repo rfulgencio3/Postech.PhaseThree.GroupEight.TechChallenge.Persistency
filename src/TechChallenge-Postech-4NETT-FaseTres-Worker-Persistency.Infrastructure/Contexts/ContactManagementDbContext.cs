@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Core.Entities;
+using Postech.TechChallenge.Persistency.Core.Entities;
 
-namespace Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Infra.Contexts
+namespace Postech.TechChallenge.Persistency.Infra.Contexts
 {
     public class ContactManagementDbContext : DbContext
     {

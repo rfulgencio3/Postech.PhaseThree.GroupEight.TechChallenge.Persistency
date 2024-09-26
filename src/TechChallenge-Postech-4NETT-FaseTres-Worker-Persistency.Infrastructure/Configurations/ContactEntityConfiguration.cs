@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Core.Entities;
+using Postech.TechChallenge.Persistency.Core.Entities;
 
-namespace Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Infra.Configurations;
+namespace Postech.TechChallenge.Persistency.Infra.Configurations;
 
 public class ContactEntityConfiguration : IEntityTypeConfiguration<ContactEntity>
 {

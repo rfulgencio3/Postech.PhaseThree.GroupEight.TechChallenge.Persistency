@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <RootNamespace>Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Infra</RootNamespace>
+    <RootNamespace>Postech.TechChallenge.Persistency.Infra</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TechChallenge-Postech-4NETT-FaseTres-Worker-Persistency.Core\Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Core.csproj" />
+    <ProjectReference Include="..\TechChallenge-Postech-4NETT-FaseTres-Worker-Persistency.Core\Postech.TechChallenge.Persistency.Core.csproj" />
   </ItemGroup>
 
 </Project>

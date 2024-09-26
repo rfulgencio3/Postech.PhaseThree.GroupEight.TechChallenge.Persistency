@@ -20,8 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\TechChallenge-Postech-4NETT-FaseTres-Worker-Persistency.Application\Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Application.csproj" />
-    <ProjectReference Include="..\..\src\TechChallenge-Postech-4NETT-FaseTres-Worker-Persistency.Job\Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Job.csproj" />
+    <ProjectReference Include="..\..\src\TechChallenge-Postech-4NETT-FaseTres-Worker-Persistency.Application\Postech.TechChallenge.Persistency.Application.csproj" />
+    <ProjectReference Include="..\..\src\TechChallenge-Postech-4NETT-FaseTres-Worker-Persistency.Job\Postech.TechChallenge.Persistency.Job.csproj" />
   </ItemGroup>
 
   <ItemGroup>

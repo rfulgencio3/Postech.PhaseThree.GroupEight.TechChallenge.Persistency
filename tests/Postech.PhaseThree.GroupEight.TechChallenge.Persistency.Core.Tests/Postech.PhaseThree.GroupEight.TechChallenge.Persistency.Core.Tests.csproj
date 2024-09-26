@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\TechChallenge-Postech-4NETT-FaseTres-Worker-Persistency.Core\Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Core.csproj" />
+    <ProjectReference Include="..\..\src\TechChallenge-Postech-4NETT-FaseTres-Worker-Persistency.Core\Postech.TechChallenge.Persistency.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,9 +1,9 @@
 ﻿using Bogus;
 using FluentAssertions;
 using Moq;
-using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Application.Services;
-using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Core.Entities;
-using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Core.Interfaces;
+using Postech.TechChallenge.Persistency.Application.Services;
+using Postech.TechChallenge.Persistency.Core.Entities;
+using Postech.TechChallenge.Persistency.Core.Interfaces;
 
 namespace Postech.GroupEight.TechChallenge.Tests;
 

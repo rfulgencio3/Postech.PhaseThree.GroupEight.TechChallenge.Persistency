@@ -2,16 +2,16 @@
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Postech.GroupEight.TechChallenge.ContactManagement.Events;
-using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Application.Producers.Interfaces;
-using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Application.Services;
-using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Application.Services.Interfaces;
-using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Core.Interfaces;
-using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Infra.Contexts;
-using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Infra.Data;
-using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Infra.Migrations;
-using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Infra.Producer;
-using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Job;
-using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Job.Consumers;
+using Postech.TechChallenge.Persistency.Application.Producers.Interfaces;
+using Postech.TechChallenge.Persistency.Application.Services;
+using Postech.TechChallenge.Persistency.Application.Services.Interfaces;
+using Postech.TechChallenge.Persistency.Core.Interfaces;
+using Postech.TechChallenge.Persistency.Infra.Contexts;
+using Postech.TechChallenge.Persistency.Infra.Data;
+using Postech.TechChallenge.Persistency.Infra.Migrations;
+using Postech.TechChallenge.Persistency.Infra.Producer;
+using Postech.TechChallenge.Persistency.Job;
+using Postech.TechChallenge.Persistency.Job.Consumers;
 using Prometheus;
 
 var host = Host.CreateDefaultBuilder(args)

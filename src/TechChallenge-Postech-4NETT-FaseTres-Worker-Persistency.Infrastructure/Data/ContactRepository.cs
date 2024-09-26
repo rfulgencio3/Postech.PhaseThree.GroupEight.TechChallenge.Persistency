@@ -1,9 +1,9 @@
-﻿using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Infra.Contexts;
-using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Core.Entities;
-using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Core.Interfaces;
+﻿using Postech.TechChallenge.Persistency.Infra.Contexts;
+using Postech.TechChallenge.Persistency.Core.Entities;
+using Postech.TechChallenge.Persistency.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Infra.Data;
+namespace Postech.TechChallenge.Persistency.Infra.Data;
 
 public class ContactRepository : IContactRepository
 {

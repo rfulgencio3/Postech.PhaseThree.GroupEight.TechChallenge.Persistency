@@ -3,8 +3,8 @@ using MassTransit;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Postech.GroupEight.TechChallenge.ContactManagement.Events;
-using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Application.Services.Interfaces;
-using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Job.Consumers;
+using Postech.TechChallenge.Persistency.Application.Services.Interfaces;
+using Postech.TechChallenge.Persistency.Job.Consumers;
 
 namespace Postech.PhaseThree.GroupEight.TechChallenge.Tests.Job;
 

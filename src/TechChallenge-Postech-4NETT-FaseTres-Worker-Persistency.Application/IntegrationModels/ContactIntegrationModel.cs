@@ -1,4 +1,4 @@
-﻿using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Core.Entities.Enums;
+﻿using Postech.TechChallenge.Persistency.Core.Entities.Enums;
 
 namespace Postech.GroupEight.TechChallenge.ContactManagement.Events;
 

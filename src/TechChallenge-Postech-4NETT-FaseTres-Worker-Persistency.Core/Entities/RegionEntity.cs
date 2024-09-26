@@ -1,4 +1,4 @@
-﻿namespace Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Core.Entities;
+﻿namespace Postech.TechChallenge.Persistency.Core.Entities;
 
 public class RegionEntity
 {

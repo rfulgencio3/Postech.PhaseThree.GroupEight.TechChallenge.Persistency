@@ -1,6 +1,6 @@
 ﻿using Postech.GroupEight.TechChallenge.ContactManagement.Events;
 
-namespace Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Application.Producers.Interfaces;
+namespace Postech.TechChallenge.Persistency.Application.Producers.Interfaces;
 
 public interface IIntegrationProducer
 {

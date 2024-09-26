@@ -1,4 +1,4 @@
-﻿namespace Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Core.Entities.Enums;
+﻿namespace Postech.TechChallenge.Persistency.Core.Entities.Enums;
 
 public enum EventType
 {

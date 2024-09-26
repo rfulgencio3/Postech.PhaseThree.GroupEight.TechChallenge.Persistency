@@ -1,8 +1,8 @@
-﻿using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Application.Services.Interfaces;
-using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Core.Entities;
-using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Core.Interfaces;
+﻿using Postech.TechChallenge.Persistency.Application.Services.Interfaces;
+using Postech.TechChallenge.Persistency.Core.Entities;
+using Postech.TechChallenge.Persistency.Core.Interfaces;
 
-namespace Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Application.Services;
+namespace Postech.TechChallenge.Persistency.Application.Services;
 
 public class ContactService : IContactService
 {

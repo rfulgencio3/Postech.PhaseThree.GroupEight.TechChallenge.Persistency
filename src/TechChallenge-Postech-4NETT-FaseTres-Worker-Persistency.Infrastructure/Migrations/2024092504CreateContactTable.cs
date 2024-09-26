@@ -1,6 +1,6 @@
 ﻿using FluentMigrator;
 
-namespace Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Infra.Migrations;
+namespace Postech.TechChallenge.Persistency.Infra.Migrations;
 
 [Migration(2024092504)]
 public class CreateContactTable : Migration

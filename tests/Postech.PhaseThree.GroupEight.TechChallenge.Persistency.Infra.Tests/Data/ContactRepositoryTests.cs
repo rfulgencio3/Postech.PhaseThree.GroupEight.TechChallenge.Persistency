@@ -1,9 +1,9 @@
 ﻿using Bogus;
 using Moq;
-using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Core.Entities;
-using Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Core.Interfaces;
+using Postech.TechChallenge.Persistency.Core.Entities;
+using Postech.TechChallenge.Persistency.Core.Interfaces;
 
-namespace Postech.PhaseThree.GroupEight.TechChallenge.Persistency.Infra.Tests.Data;
+namespace Postech.TechChallenge.Persistency.Infra.Tests.Data;
 
 public class ContactRepositoryTests
 {
