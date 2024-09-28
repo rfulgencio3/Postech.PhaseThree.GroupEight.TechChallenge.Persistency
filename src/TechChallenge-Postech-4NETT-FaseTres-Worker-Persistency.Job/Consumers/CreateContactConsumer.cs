@@ -3,59 +3,38 @@ using Postech.GroupEight.TechChallenge.ContactManagement.Events;
 using Postech.TechChallenge.Persistency.Application.Producers.Interfaces;
 using Postech.TechChallenge.Persistency.Application.Services.Interfaces;
 using Postech.TechChallenge.Persistency.Core.Entities;
-using Postech.TechChallenge.Persistency.Core.Entities.Enums;
+using Postech.TechChallenge.Persistency.Core.Enumerators;
+using Postech.TechChallenge.Persistency.Core.ValueObjects;
 
 namespace Postech.TechChallenge.Persistency.Job.Consumers;
 
-public class CreateContactConsumer : IConsumer<CreateContactEvent>
+public class CreateContactConsumer(IContactService contactService, IIntegrationProducer producer, ILogger<CreateContactConsumer> logger) : IConsumer<CreateContactEvent>
 {
-    private readonly IContactService _contactService;
-    private readonly IIntegrationProducer _producer;
-    private readonly ILogger<CreateContactConsumer> _logger;
-
-    public CreateContactConsumer(IContactService contactService, IIntegrationProducer producer, ILogger<CreateContactConsumer> logger)
-    {
-        _contactService = contactService;
-        _producer = producer;
-        _logger = logger;
-    }
+    private readonly IContactService _contactService = contactService;
+    private readonly IIntegrationProducer _producer = producer;
+    private readonly ILogger<CreateContactConsumer> _logger = logger;
 
     public async Task Consume(ConsumeContext<CreateContactEvent> context)
     {
         _logger.LogInformation("Received CreateContact message at: {time}", DateTimeOffset.Now);
-
-        var model = context.Message;
-        var contactId = Guid.NewGuid();
-
-        var contactPhoneAreaCode = short.Parse(model.ContactPhoneNumberAreaCode.ToString());
-        var contactPhone = int.Parse(model.ContactPhoneNumber.ToString());
-
-        var contact = new ContactEntity(
-            contactId,
-            model.ContactFirstName,
-            model.ContactLastName,
-            model.ContactEmail,
-            contactPhoneAreaCode,
-            contactPhone
-        );
-
-        contact.SetCreatedAt();
-
-        var id = await _contactService.CreateContactHandlerAsync(contact);
-
-        var integrationMessage = new ContactIntegrationModel
+        ContactNameValueObject contactName = new(context.Message.ContactFirstName, context.Message.ContactLastName);
+        ContactEmailValueObject contactEmail = new(context.Message.ContactEmail);
+        ContactPhoneValueObject contactPhone = new(context.Message.ContactPhoneNumber, AreaCodeValueObject.Create(context.Message.ContactPhoneNumberAreaCode));
+        ContactEntity contact = new(contactName, contactEmail, contactPhone);
+        _ = await _contactService.CreateContactHandlerAsync(contact);
+        ContactIntegrationModel integrationMessage = new()
         {
-            Id = id,
-            FirstName = model.ContactFirstName,
-            LastName = model.ContactLastName,
-            Email = model.ContactEmail,
-            PhoneNumber = model.ContactPhoneNumber,
-            CreatedAt = DateTime.UtcNow,
+            Id = contact.Id,
+            FirstName = contact.ContactName.FirstName,
+            LastName = contact.ContactName.LastName,
+            Email = contact.ContactEmail.Value,
+            PhoneNumber = contact.ContactPhone.Number,
+            AreaCode = contact.ContactPhone.AreaCode.Value,
+            ModifiedAt = contact.ModifiedAt,
+            CreatedAt = contact.CreatedAt,
             EventType = EventType.Create,
         };
-
         await _producer.PublishAsync(integrationMessage);
-
         _logger.LogInformation("Published integration message for CreateContact at: {time}", DateTimeOffset.Now);
     }
 }

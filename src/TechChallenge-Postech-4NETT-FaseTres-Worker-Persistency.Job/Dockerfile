@@ -1,9 +1,10 @@
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 EXPOSE 5008
-EXPOSE 5679 # Porta do Prometheus 
+EXPOSE 5679
 
 ENV ASPNETCORE_URLS=http://+:5008
+ENV ASPNETCORE_ENVIRONMENT=Docker
 
 USER app
 FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:8.0 AS build
@@ -22,4 +23,4 @@ RUN dotnet publish "Postech.TechChallenge.Persistency.Job.csproj" -c $configurat
 FROM build AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Postech.TechChallenge.Persistency.Job.dll"]
+ENTRYPOINT ["dotnet", "Postech.TechChallenge.Persistency.Job.dll", "--environment=Docker"]

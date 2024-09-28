@@ -1,11 +1,12 @@
 ﻿using Postech.TechChallenge.Persistency.Core.Entities;
+using Postech.TechChallenge.Persistency.Core.ValueObjects;
 
 namespace Postech.TechChallenge.Persistency.Core.Interfaces;
 
-public interface IContactRepository
+public interface IContactRepository : IRepository<ContactEntity, Guid>
 {
-    Task CreateContactAsync(ContactEntity contact);
-    Task UpdateContactAsync(ContactEntity contact);
-    Task DeleteContactAsync(Guid id);
-    Task<ContactEntity> GetContactByIdAsync(Guid id);
+    Task<IEnumerable<ContactEntity>> GetContactsByAreaCodeValueAsync(string areaCodeValue);
+    Task<AreaCodeValueObject?> GetAreaCodeByValueAsync(string areaCodeValue);
+    Task<ContactPhoneValueObject?> GetContactPhoneByNumberAndAreaCodeValueAsync(string phoneNumber, string areaCodeValue);
+    Task<IEnumerable<ContactEntity>> GetContactsByContactPhoneAsync(ContactPhoneValueObject contactPhone);
 }

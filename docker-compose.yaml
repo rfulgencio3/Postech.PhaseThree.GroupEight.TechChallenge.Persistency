@@ -12,11 +12,10 @@ services:
       POSTGRES_DB: "ContactManagementDb"
       POSTGRES_USER: "admin"
       POSTGRES_PASSWORD: "P@ssW0rd2024!Safe"
-    networks:
-      techchallenge-worker-persistency_custom_network:
-        ipv4_address: 192.168.80.5
     volumes:
       - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    networks:
+      - techchallenge-worker-persistency_custom_network
 
   # PostgreSQL Exporter
   postgres_exporter:
@@ -50,6 +49,7 @@ services:
       POSTGRES_DB: "ContactManagementDb"
       POSTGRES_USER: "admin"
       POSTGRES_PASSWORD: "P@ssW0rd2024!Safe"
+      ASPNETCORE_ENVIRONMENT: "Docker"
     depends_on:
       - postgres_db
       - rabbitmq
@@ -85,8 +85,7 @@ services:
       RABBITMQ_DEFAULT_PASS: "Admin*123"
       RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS: "-rabbitmq_prometheus"
     networks:
-      techchallenge-worker-persistency_custom_network:
-        ipv4_address: 192.168.80.6
+      - techchallenge-worker-persistency_custom_network
 
   # Prometheus
   prometheus:
@@ -105,12 +104,13 @@ services:
   grafana:
     image: grafana/grafana:latest
     container_name: grafana
+    restart: always
     ports:
       - "3000:3000"
-    environment:
-      - GF_SECURITY_ADMIN_PASSWORD=admin
     networks:
       - techchallenge-worker-persistency_custom_network
+    depends_on:
+      - prometheus
 
   # cAdvisor
   cadvisor:
@@ -130,7 +130,4 @@ services:
 
 networks:
   techchallenge-worker-persistency_custom_network:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 192.168.80.0/24
+    external: true

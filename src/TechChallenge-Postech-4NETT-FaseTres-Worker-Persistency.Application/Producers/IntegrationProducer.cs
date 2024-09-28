@@ -1,17 +1,15 @@
-﻿using MassTransit;
+﻿using System.Diagnostics.CodeAnalysis;
+using MassTransit;
 using Postech.GroupEight.TechChallenge.ContactManagement.Events;
 using Postech.TechChallenge.Persistency.Application.Producers.Interfaces;
 
-namespace Postech.TechChallenge.Persistency.Infra.Producer;
+namespace Postech.TechChallenge.Persistency.Application.Producers;
 
-public class IntegrationProducer : IIntegrationProducer
+[ExcludeFromCodeCoverage]
+public class IntegrationProducer(IBus bus) : IIntegrationProducer
 {
-    private readonly IBus _bus;
+    private readonly IBus _bus = bus;
 
-    public IntegrationProducer(IBus bus)
-    {
-        _bus = bus;
-    }
     public async Task<bool> PublishAsync(ContactIntegrationModel request)
     {
         await _bus.Publish(request, ctx =>
