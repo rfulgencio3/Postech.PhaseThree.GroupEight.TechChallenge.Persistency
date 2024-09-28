@@ -39,7 +39,6 @@ services:
     container_name: contact_worker_persistency
     restart: always
     ports:
-      - "5008:5008"
       - "5679:5679"
     environment:
       RABBITMQ_HOST: "rabbitmq"
