@@ -109,8 +109,8 @@ var host = Host.CreateDefaultBuilder(args)
 
         services.AddHostedService<Start>();
 
-        var metricsServer = new KestrelMetricServer(port: 5679);
-        metricsServer.Start();
+        //var metricsServer = new KestrelMetricServer(port: 5679);
+        //metricsServer.Start();
 
     })
     .ConfigureLogging(logging =>
