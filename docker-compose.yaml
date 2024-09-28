@@ -131,6 +131,7 @@ services:
 networks:
   techchallenge-postech-4nett-fasetres-worker-persistency_custom_network:
     driver: bridge
+    external: true
     ipam:
       config:
         - subnet: 192.168.80.0/24
