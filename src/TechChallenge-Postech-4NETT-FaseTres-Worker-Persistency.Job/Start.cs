@@ -1,16 +1,11 @@
-﻿using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+﻿using System.Diagnostics.CodeAnalysis;
 
 namespace Postech.TechChallenge.Persistency.Job;
 
-public class Start : BackgroundService
+[ExcludeFromCodeCoverage]
+public class Start(ILogger<Start> logger) : BackgroundService
 {
-    private readonly ILogger<Start> _logger;
-
-    public Start(ILogger<Start> logger)
-    {
-        _logger = logger;
-    }
+    private readonly ILogger<Start> _logger = logger;
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
@@ -22,5 +17,4 @@ public class Start : BackgroundService
         }
         _logger.LogInformation("Worker execution stopped at: {time}", DateTimeOffset.UtcNow);
     }
-
 }

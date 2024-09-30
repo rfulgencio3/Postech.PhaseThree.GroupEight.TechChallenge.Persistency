@@ -5,6 +5,7 @@
     <RootNamespace>Postech.TechChallenge.Persistency.Core</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <NoWarn>CS8618,CS8604</NoWarn>
   </PropertyGroup>
 
 </Project>

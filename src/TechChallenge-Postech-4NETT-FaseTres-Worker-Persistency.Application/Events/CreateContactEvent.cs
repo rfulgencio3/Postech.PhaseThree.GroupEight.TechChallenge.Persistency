@@ -1,5 +1,8 @@
-﻿namespace Postech.GroupEight.TechChallenge.ContactManagement.Events;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace Postech.GroupEight.TechChallenge.ContactManagement.Events;
+
+[ExcludeFromCodeCoverage]
 public class CreateContactEvent
 {
     public required string ContactFirstName { get; set; }

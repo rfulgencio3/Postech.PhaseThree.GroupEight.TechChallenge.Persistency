@@ -4,33 +4,31 @@ using Postech.TechChallenge.Persistency.Core.Interfaces;
 
 namespace Postech.TechChallenge.Persistency.Application.Services;
 
-public class ContactService : IContactService
+public class ContactService(IContactRepository contactRepository) : IContactService
 {
-    private readonly IContactRepository _contactRepository;
-
-    public ContactService(IContactRepository contactRepository)
-    {
-        _contactRepository = contactRepository;
-    }
+    private readonly IContactRepository _contactRepository = contactRepository;
 
     public async Task<Guid> CreateContactHandlerAsync(ContactEntity contact)
     {
-        await _contactRepository.CreateContactAsync(contact);
-        return contact.ContactId;
+        await _contactRepository.InsertAsync(contact);
+        await _contactRepository.SaveChangesAsync();
+        return contact.Id;
     }
 
     public async Task UpdateContactHandlerAsync(ContactEntity contact)
     {
-        await _contactRepository.UpdateContactAsync(contact);
+        _contactRepository.Update(contact);
+        await _contactRepository.SaveChangesAsync();
     }
 
-    public async Task DeleteContactHandlerAsync(Guid id)
+    public async Task DeleteContactHandlerAsync(ContactEntity contact)
     {
-        await _contactRepository.DeleteContactAsync(id);
+        contact.Inactivate();
+        await _contactRepository.SaveChangesAsync();
     }
 
-    public async Task<ContactEntity> GetContactByIdAsync(Guid id)
+    public async Task<ContactEntity?> GetContactByIdAsync(Guid id)
     {
-        return  await _contactRepository.GetContactByIdAsync(id);
+        return await _contactRepository.GetByIdAsync(id);
     }
 }

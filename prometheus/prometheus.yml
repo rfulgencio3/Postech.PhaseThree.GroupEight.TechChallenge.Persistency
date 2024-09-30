@@ -5,14 +5,20 @@ scrape_configs:
   - job_name: 'contact_integration_worker'
     static_configs:
       - targets: ['contact_integration_worker:5678']
+        labels:
+          app: 'contactintegration_app'
 
-  - job_name: 'contact_persistency_worker'
+  - job_name: 'contact_worker_persistency'
     static_configs:
-      - targets: ['contact_persistency_worker:5679']      
+      - targets: ['contact_worker_persistency:5679']      
+        labels:
+          app: 'contactpersistency_app'
 
   - job_name: 'contactfind_api'
     static_configs:
-      - targets: ['contactfind-api:5266']
+      - targets: ['contactfind_api:5266']
+        labels:
+          app: 'contactfind_app'
 
   - job_name: 'dotnet_contactupdate_app'
     metrics_path: /metrics
@@ -20,6 +26,20 @@ scrape_configs:
       - targets: ['dotnet_contactupdate_app:5010']
         labels:
           app: 'contactupdate_app'
+
+  - job_name: 'dotnet_contactdelete_app'
+    metrics_path: /metrics
+    static_configs:
+      - targets: ['dotnet_contactdelete_app:5013']
+        labels:
+          app: 'contactdelete_app'
+
+  - job_name: 'addcontact_app'
+    metrics_path: /metrics
+    static_configs:
+      - targets: ['addcontact_app:5011']
+        labels:
+          app: 'contactadd_app'
 
   - job_name: 'rabbitmq'
     static_configs:
@@ -36,4 +56,5 @@ scrape_configs:
   - job_name: 'postgres'
     static_configs:
       - targets: ['postgres_exporter:9187']
-  
+        labels:
+          app: 'postgres'
