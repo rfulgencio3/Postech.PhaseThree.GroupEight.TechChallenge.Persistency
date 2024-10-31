@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq
+spec:
+  selector:
+    app: rabbitmq
+  ports:
+    - name: amqp  # Nome para a porta padrão do RabbitMQ
+      protocol: TCP
+      port: 5672
+      targetPort: 5672
+    - name: management  # Nome para a porta de gerenciamento do RabbitMQ
+      protocol: TCP
+      port: 15672
+      targetPort: 15672
+  type: ClusterIP

@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: techchallenge
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: techchallenge
+  template:
+    metadata:
+      labels:
+        app: techchallenge
+    spec:
+      containers:
+      - name: techchallenge
+        image: rfulgencio3/postech-postech-techchallenge-persistency:latest
+        ports:
+        - containerPort: 80
+        env:
+        - name: ConnectionStrings__DefaultConnection
+          value: "Host=postgres;Port=5432;Database=ContactManagementDb;Username=admin;Password=P@ssW0rd2024!Safe"
